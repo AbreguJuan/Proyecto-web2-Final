@@ -1,14 +1,19 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./config.js";
 
-class User extends Model {}
+class Usuario extends Model {}
 
-User.init(
+Usuario.init(
     {
-        id: {
+        idUsuario: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
+        },
+        username: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            unique: true
         },
         firstName: {
             type: DataTypes.STRING(50),
@@ -16,6 +21,10 @@ User.init(
         },
         lastName: {
             type: DataTypes.STRING(50),
+            allowNull: false
+        },
+        password: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
         email: {
@@ -31,23 +40,12 @@ User.init(
         }
     }, {
         sequelize, //necesario para la coneccion a la base de datos
-        modelName: 'User', //nombre del modelo en JavaScript
+        modelName: 'Usuario', //nombre del modelo en JavaScript
         //tableName: 'usuarios', //nombre de la tabla en la base de datos
         createdAt: true, //cada vez que cree un usuario coloca la fecha de creacion
         deletedAt: true, //cada vez que borre un usuario coloca la fecha de eliminacion
     }
 );
 
-export default User
+export default Usuario
 
-// user
-// id not null auto increment
-// firstname not null varchar(50)
-// lastName not null varchar(50)
-// birthDate date
-// email not null varchar(100) unique
-// phone varchar(20)
-// -- auditoria
-// createdAt
-// updatedAt
-// deletedAt

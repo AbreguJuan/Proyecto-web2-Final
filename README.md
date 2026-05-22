@@ -1,7 +1,8 @@
+## Proyecto Final de Web 2
 
+Crear una red social <.<
 
-
-## GUIA DE USO
+## Consejos
 
 en el package.json:
 
