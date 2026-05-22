@@ -1,17 +1,12 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "./config.js";
+import sequelize from "../config.js";
 import Publicacion from "./Publicacion.js";
-import Usuario from "./Usuario.js";
+import Imagen from "./Imagen.js";
 
-class MeGusta extends Model {}
+class ImagenesPublicacion extends Model {}
 
-MeGusta.init(
+ImagenesPublicacion.init(
     {
-        idMeGusta: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
         idPublicacion: {
             type: DataTypes.INTEGER,
             references: {
@@ -19,18 +14,18 @@ MeGusta.init(
                 key: 'idPublicacion'
             }
         },
-        idUsuario: {
+        idImagen: {
             type: DataTypes.INTEGER,
             references: {
-                model: Usuario,
-                key: 'idUsuario'
+                model: Imagen,
+                key: 'idImagen'
             }
         }
     },
     {
         sequelize,
-        modelName: "MeGusta",
+        modelName: "ImagenesPublicacion",
     }
 );
 
-export default MeGusta
+export default ImagenesPublicacion

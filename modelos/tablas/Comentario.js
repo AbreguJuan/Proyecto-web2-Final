@@ -1,22 +1,27 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "./config.js";
+import sequelize from "../config.js";
+import Usuario from "./Usuario.js";
 
-class Publicacion extends Model {}
+class Comentario extends Model {}
 
-Publicacion.init(
+Comentario.init(
     {
-        idPublicacion: {
+        idComentario: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        titulo: {
+        comentario: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        contenido: {
-            type: DataTypes.TEXT,
-            allowNull: false
+        idUsuario: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: Usuario,
+                key: 'idUsuario'
+            }
         },
         fecha: {
             type: DataTypes.DATE,
@@ -25,11 +30,11 @@ Publicacion.init(
     },
     {
         sequelize,
-        modelName: "Publicacion",
+        modelName: "Comentario",
         createdAt: true,
         deletedAt: true,
         updatedAt: false
     }
 );
 
-export default Publicacion
+export default Comentario

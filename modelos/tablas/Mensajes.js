@@ -1,17 +1,17 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "./config.js";
+import sequelize from "../config.js";
 import Usuario from "./Usuario.js";
 
-class Seguidores extends Model { }
+class Mensajes extends Model { }
 
-Seguidores.init(
+Mensajes.init(
     {
-        idSeguidor: {
+        idMensaje: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        idUsuario: {
+        idUsuarioEmisor: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -19,21 +19,29 @@ Seguidores.init(
                 key: 'idUsuario'
             }
         },
-        idUsuarioSeguido: {
+        idUsuarioReceptor: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: Usuario,
                 key: 'idUsuario'
             }
+        },
+        chat: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        fecha: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
         }
     },
     {
         sequelize, //necesario para la coneccion a la base de datos
-        modelName: 'Seguidores', //nombre del modelo en JavaScript
-        createdAt: true, //cada vez que cree un seguidor coloca la fecha de creacion
-        deletedAt: true, //cada vez que borre un seguidor coloca la fecha de eliminacion
+        modelName: 'Mensajes', //nombre del modelo en JavaScript
+        createdAt: true, //cada vez que cree un mensaje coloca la fecha de creacion
+        deletedAt: true, //cada vez que borre un mensaje coloca la fecha de eliminacion
     }
 );
 
-export default Seguidores
+export default Mensajes

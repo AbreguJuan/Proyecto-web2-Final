@@ -1,18 +1,22 @@
 //Aqui sincronizo todos los modelos con la base de datos con importaciones individuales
 
 import sequelize from "./config.js";
-import Usuario from "./Usuario.js";
-import Publicacion from "./Publicacion.js";
-import Imagen from "./Imagen.js";
-import Etiqueta from "./Etiqueta.js";
-import Comentario from "./Comentario.js";
-import PublicacionComentario from "./PublicacionComentarios.js";
-import MeGusta from "./MeGusta.js";
-import PublicacionEtiqueta from "./PublicacionEtiqueta.js";
-import ImagenesPublicacion from "./ImagenesPublicacion.js";
-import Denuncia from "./Denuncia.js";
-import Seguidores from "./Seguidores.js";
-import Notificaciones from "./Notificaciones.js";
+import Usuario from "./tablas/Usuario.js";
+import Publicacion from "./tablas/Publicacion.js";
+import Imagen from "./tablas/Imagen.js";
+import Etiqueta from "./tablas/Etiqueta.js";
+import Comentario from "./tablas/Comentario.js";
+import PublicacionComentario from "./tablas/PublicacionComentarios.js";
+import MeGusta from "./tablas/MeGusta.js";
+import PublicacionEtiqueta from "./tablas/PublicacionEtiqueta.js";
+import ImagenesPublicacion from "./tablas/ImagenesPublicacion.js";
+import Denuncia from "./tablas/Denuncia.js";
+import Seguidores from "./tablas/Seguidores.js";
+import Notificaciones from "./tablas/Notificaciones.js";
+import Coleccion from "./tablas/Coleccion.js";
+import ColeccionPublicaciones from "./tablas/ColeccionPublicaciones.js";
+import ColeccionImagenes from "./tablas/ColeccionImagen.js";
+import Mensajes from "./tablas/Mensajes.js";
 
 //Relaciones entre modelos
 
@@ -93,6 +97,7 @@ Denuncia.belongsTo(Comentario, {
 })
 
 //Usuario puede tener muchos seguidores y cada seguidor puede seguir a muchos usuarios
+//Atencion con esta tabla que me costo entenderla
 Usuario.hasMany(Seguidores, {
     foreignKey: 'idUsuario',
     as: 'Siguiendo'
@@ -136,6 +141,52 @@ Notificaciones.belongsTo(Comentario, {
     foreignKey: 'idComentario'
 })
 
+//Usuario puede tener muchas colecciones y cada coleccion pertenece a un usuario
+Usuario.hasMany(Coleccion, {
+    foreignKey: 'idUsuario'
+})
+Coleccion.belongsTo(Usuario, {
+    foreignKey: 'idUsuario'
+})
+
+//Coleccion puede tener muchas publicaciones y cada publicacion puede pertenecer a muchas colecciones
+Coleccion.belongsToMany(Publicacion, { 
+    through: 'ColeccionPublicaciones',
+    foreignKey: 'idColeccion',
+    otherKey: 'idPublicacion'
+})
+Publicacion.belongsToMany(Coleccion, { 
+    through: 'ColeccionPublicaciones',
+    foreignKey: 'idPublicacion',
+    otherKey: 'idColeccion'
+})
+
+//Coleccion puede tener muchas imagenes y cada imagen puede pertenecer a muchas colecciones
+Coleccion.belongsToMany(Imagen, { 
+    through: 'ColeccionImagenes',
+    foreignKey: 'idColeccion',
+    otherKey: 'idImagen'
+})
+Imagen.belongsToMany(Coleccion, { 
+    through: 'ColeccionImagenes',
+    foreignKey: 'idImagen',
+    otherKey: 'idColeccion'
+})
+
+//Usuario puede enviar muchos mensajes y cada mensaje pertenece a un usuario
+Usuario.hasMany(Mensajes, {
+    foreignKey: 'idUsuarioEmisor'
+})
+Mensajes.belongsTo(Usuario, {
+    foreignKey: 'idUsuarioEmisor'
+})
+Usuario.hasMany(Mensajes, {
+    foreignKey: 'idUsuarioReceptor'
+})
+Mensajes.belongsTo(Usuario, {
+    foreignKey: 'idUsuarioReceptor'
+})
+
 //Exporto la funcion para conectar a la base de datos y sincronizar los modelos
 export async function connectDataBase() {
     try {
@@ -149,3 +200,7 @@ export async function connectDataBase() {
         throw error
     }
 }
+
+//Dudas para llevarle al profesor:
+//1. A veces me duplica una tabla como por ejemplo la de usuario
+//2. 

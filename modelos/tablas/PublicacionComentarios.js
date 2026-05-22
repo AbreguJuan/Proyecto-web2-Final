@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "./config.js";
+import sequelize from "../config.js";
 import Publicacion from "./Publicacion.js";
 import Comentario from "./Comentario.js";
 

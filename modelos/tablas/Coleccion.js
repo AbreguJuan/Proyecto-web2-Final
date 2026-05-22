@@ -1,17 +1,17 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "./config.js";
+import sequelize from "../config.js";
 import Usuario from "./Usuario.js";
 
-class Comentario extends Model {}
+class Coleccion extends Model { }
 
-Comentario.init(
+Coleccion.init(
     {
-        idComentario: {
+        idColeccion: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        comentario: {
+        descripcion: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -23,18 +23,13 @@ Comentario.init(
                 key: 'idUsuario'
             }
         },
-        fecha: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
-        }
     },
     {
-        sequelize,
-        modelName: "Comentario",
-        createdAt: true,
-        deletedAt: true,
-        updatedAt: false
+        sequelize, //necesario para la coneccion a la base de datos
+        modelName: 'Coleccion', //nombre del modelo en JavaScript
+        createdAt: true, //cada vez que cree un seguidor coloca la fecha de creacion
+        deletedAt: true, //cada vez que borre un seguidor coloca la fecha de eliminacion
     }
 );
 
-export default Comentario
+export default Coleccion

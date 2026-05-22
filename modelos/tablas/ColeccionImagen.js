@@ -1,17 +1,17 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "./config.js";
-import Publicacion from "./Publicacion.js";
+import sequelize from "../config.js";
 import Imagen from "./Imagen.js";
+import Coleccion from "./Coleccion.js";
 
-class ImagenesPublicacion extends Model {}
+class ColeccionImagenes extends Model { }
 
-ImagenesPublicacion.init(
+ColeccionImagenes.init(
     {
-        idPublicacion: {
+        idColeccion: {
             type: DataTypes.INTEGER,
             references: {
-                model: Publicacion,
-                key: 'idPublicacion'
+                model: 'Coleccion',
+                key: 'idColeccion'
             }
         },
         idImagen: {
@@ -20,12 +20,12 @@ ImagenesPublicacion.init(
                 model: Imagen,
                 key: 'idImagen'
             }
-        }
+        },
     },
     {
         sequelize,
-        modelName: "ImagenesPublicacion",
+        modelName: "ColeccionImagenes",
     }
 );
 
-export default ImagenesPublicacion
+export default ColeccionImagenes
