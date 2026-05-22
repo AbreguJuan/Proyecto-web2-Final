@@ -93,17 +93,21 @@ Denuncia.belongsTo(Comentario, {
 })
 
 //Usuario puede tener muchos seguidores y cada seguidor puede seguir a muchos usuarios
-Usuario.belongsToMany(Usuario, {
-    through: 'Seguidores',
-    as: 'Seguidos',     //Alias para diferenciar entre seguidores y seguidos
+Usuario.hasMany(Seguidores, {
     foreignKey: 'idUsuario',
-    otherKey: 'idUsuarioSeguido'
+    as: 'Siguiendo'
 })
-Usuario.belongsToMany(Usuario, {
-    through: 'Seguidores',
-    as: 'Seguidores',   //Alias para diferenciar entre seguidores y seguidos
+Usuario.hasMany(Seguidores, {
     foreignKey: 'idUsuarioSeguido',
-    otherKey: 'idUsuario'
+    as: 'Seguidores'
+})
+Seguidores.belongsTo(Usuario, {
+    foreignKey: 'idUsuario',
+    as: 'Seguidor'
+})
+Seguidores.belongsTo(Usuario, {
+    foreignKey: 'idUsuarioSeguido',
+    as: 'Seguido'
 })
 
 //Usuario puede recibir muchas notificaciones y cada notificación pertenece a un usuario o publicacion o comentario o seguidor
