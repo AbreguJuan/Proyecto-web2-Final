@@ -25,6 +25,10 @@ ColeccionPublicaciones.init(
     {
         sequelize,
         modelName: "ColeccionPublicaciones",
+        tableName: "ColeccionPublicaciones",
+        createdAt: true,
+        deletedAt: true,
+        updatedAt: false
     }
 );
 

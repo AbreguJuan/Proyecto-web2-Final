@@ -25,6 +25,10 @@ PublicacionEtiqueta.init(
     {
         sequelize,
         modelName: "PublicacionEtiqueta",
+        tableName: "PublicacionEtiqueta",
+        createdAt: true,
+        deletedAt: true,
+        updatedAt: false
     }
 );
 

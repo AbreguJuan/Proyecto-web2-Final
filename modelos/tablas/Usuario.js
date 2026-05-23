@@ -13,7 +13,7 @@ Usuario.init(
         username: {
             type: DataTypes.STRING(50),
             allowNull: false,
-            unique: true
+            //unique: true
         },
         firstName: {
             type: DataTypes.STRING(50),
@@ -30,7 +30,7 @@ Usuario.init(
         email: {
             type: DataTypes.STRING(100),
             allowNull: false,
-            unique: true
+            //unique: true
         },
         birthDate: {
             type: DataTypes.DATEONLY
@@ -41,9 +41,10 @@ Usuario.init(
     }, {
         sequelize, //necesario para la coneccion a la base de datos
         modelName: 'Usuario', //nombre del modelo en JavaScript
-        //tableName: 'usuarios', //nombre de la tabla en la base de datos
+        tableName: 'Usuarios', //nombre de la tabla en la base de datos
         createdAt: true, //cada vez que cree un usuario coloca la fecha de creacion
         deletedAt: true, //cada vez que borre un usuario coloca la fecha de eliminacion
+        updatedAt: false //cada vez que actualice un usuario coloca la fecha de actualizacion
     }
 );
 

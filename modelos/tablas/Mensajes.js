@@ -39,8 +39,10 @@ Mensajes.init(
     {
         sequelize, //necesario para la coneccion a la base de datos
         modelName: 'Mensajes', //nombre del modelo en JavaScript
+        tableName: 'Mensajes', //nombre de la tabla en la base de datos
         createdAt: true, //cada vez que cree un mensaje coloca la fecha de creacion
         deletedAt: true, //cada vez que borre un mensaje coloca la fecha de eliminacion
+        updatedAt: false
     }
 );
 

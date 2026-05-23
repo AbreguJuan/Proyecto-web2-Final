@@ -30,6 +30,10 @@ MeGusta.init(
     {
         sequelize,
         modelName: "MeGusta",
+        tableName: "MeGusta",
+        createdAt: true,
+        deletedAt: true,
+        updatedAt: false
     }
 );
 

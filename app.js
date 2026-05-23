@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import sequelize from './modelos/config.js';
-import './modelos/index.js';
+//import './modelos/index.js';
 import { connectDataBase } from './modelos/index.js';
 
 // CONSTANTES

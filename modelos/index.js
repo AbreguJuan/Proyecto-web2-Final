@@ -97,18 +97,19 @@ Denuncia.belongsTo(Comentario, {
 })
 
 //Usuario puede tener muchos seguidores y cada seguidor puede seguir a muchos usuarios
-//Atencion con esta tabla que me costo entenderla
+//ID USUARIO
 Usuario.hasMany(Seguidores, {
     foreignKey: 'idUsuario',
     as: 'Siguiendo'
 })
-Usuario.hasMany(Seguidores, {
-    foreignKey: 'idUsuarioSeguido',
-    as: 'Seguidores'
-})
 Seguidores.belongsTo(Usuario, {
     foreignKey: 'idUsuario',
     as: 'Seguidor'
+})
+//ID USUARIO SEGUIDO
+Usuario.hasMany(Seguidores, {
+    foreignKey: 'idUsuarioSeguido',
+    as: 'Seguidores'
 })
 Seguidores.belongsTo(Usuario, {
     foreignKey: 'idUsuarioSeguido',
@@ -174,12 +175,14 @@ Imagen.belongsToMany(Coleccion, {
 })
 
 //Usuario puede enviar muchos mensajes y cada mensaje pertenece a un usuario
+//ID USUARIO EMISOR
 Usuario.hasMany(Mensajes, {
     foreignKey: 'idUsuarioEmisor'
 })
 Mensajes.belongsTo(Usuario, {
     foreignKey: 'idUsuarioEmisor'
 })
+//ID USUARIO RECEPTOR
 Usuario.hasMany(Mensajes, {
     foreignKey: 'idUsuarioReceptor'
 })
@@ -202,5 +205,5 @@ export async function connectDataBase() {
 }
 
 //Dudas para llevarle al profesor:
-//1. A veces me duplica una tabla como por ejemplo la de usuario
-//2. 
+//1. A veces me duplica una tabla como por ejemplo la de usuario (SOLUCIONADO)
+//2. Porque no puedo poner unique a la tabla usuario porque me duplica la memoria ocupada y a veces las tablas

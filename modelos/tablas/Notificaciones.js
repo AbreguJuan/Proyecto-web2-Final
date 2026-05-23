@@ -62,6 +62,7 @@ Notificaciones.init(
     {
         sequelize,
         modelName: "Notificaciones",
+        tableName: "Notificaciones",
         createdAt: true,
         deletedAt: true,
         updatedAt: false

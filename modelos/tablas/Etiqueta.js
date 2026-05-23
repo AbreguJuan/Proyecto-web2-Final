@@ -17,8 +17,10 @@ Etiqueta.init(
     }, {
         sequelize,
         modelName: "Etiqueta",
+        tableName: "Etiqueta",
         createdAt: true,
-        updatedAt: false
+        updatedAt: false,
+        deletedAt: true
     }
 );
 

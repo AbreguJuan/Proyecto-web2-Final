@@ -25,6 +25,10 @@ ColeccionImagenes.init(
     {
         sequelize,
         modelName: "ColeccionImagenes",
+        tableName: "ColeccionImagenes",
+        createdAt: true,
+        deletedAt: true,
+        updatedAt: false
     }
 );
 

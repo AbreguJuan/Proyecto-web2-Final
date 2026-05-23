@@ -10,7 +10,7 @@ Imagen.init(
             primaryKey: true,
             autoIncrement: true
         },
-        imagen: {
+        Imagen: {
             type: DataTypes.BLOB
         },
         copyright: {
@@ -22,6 +22,7 @@ Imagen.init(
     }, {
         sequelize,
         modelName: "Imagen",
+        tableName: "Imagen",
         createdAt: true,
         deletedAt: true,
         updatedAt: false

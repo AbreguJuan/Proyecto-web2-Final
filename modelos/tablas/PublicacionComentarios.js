@@ -25,6 +25,10 @@ PublicacionComentario.init(
     {
         sequelize,
         modelName: "PublicacionComentario",
+        tableName: "PublicacionComentario",
+        createdAt: true,
+        deletedAt: true,
+        updatedAt: false
     }
 );
 

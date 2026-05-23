@@ -31,6 +31,7 @@ Comentario.init(
     {
         sequelize,
         modelName: "Comentario",
+        tableName: "Comentario",
         createdAt: true,
         deletedAt: true,
         updatedAt: false

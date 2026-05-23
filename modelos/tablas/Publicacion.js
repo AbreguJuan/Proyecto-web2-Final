@@ -26,6 +26,7 @@ Publicacion.init(
     {
         sequelize,
         modelName: "Publicacion",
+        tableName: "Publicacion",
         createdAt: true,
         deletedAt: true,
         updatedAt: false
