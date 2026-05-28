@@ -37,6 +37,9 @@ Usuario.init(
         },
         phone: {
             type: DataTypes.STRING(20)
+        },
+        avatar: {
+            type: DataTypes.BLOB
         }
     }, {
         sequelize, //necesario para la coneccion a la base de datos

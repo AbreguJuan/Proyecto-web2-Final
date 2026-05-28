@@ -3,6 +3,7 @@ import express from 'express';
 import sequelize from './modelos/config.js';
 //import './modelos/index.js';
 import { connectDataBase } from './modelos/index.js';
+import routes from './routes/login.js'
 
 // CONSTANTES
 
@@ -15,9 +16,21 @@ app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// MOTOR DE PLANTILLAS
+app.set('view engine', 'pug');
+app.set('views', './views');
+
 // RUTAS
 app.get('/', (req, res) => {
-    res.send('Hola Mundo')
+    res.render('index')
+})
+
+app.get('/ingresar', (req, res) => {
+    res.render('login/ingresar')
+})
+
+app.get('/registrarse', (req, res) => {
+    res.render('login/registrarse')
 })
 
 // CONECCION A LA BASE DE DATOS
