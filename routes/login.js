@@ -1,10 +1,18 @@
 import { Router } from "express"
-import path from 'path'
-import fs from 'fs/promises'
 
-const router = Router()
+const loginRouter = Router()
 
 //Ingresar
+loginRouter.get('/', (req, res) => {
+    res.render('index')
+})
 
+loginRouter.get('/ingresar', (req, res) => {
+    res.render('login/ingresar')
+})
 
-export default router
+loginRouter.get('/registrarse', (req, res) => {
+    res.render('login/registrarse')
+})
+
+export default loginRouter

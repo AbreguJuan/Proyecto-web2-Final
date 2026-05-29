@@ -3,7 +3,9 @@ import express from 'express';
 import sequelize from './modelos/config.js';
 //import './modelos/index.js';
 import { connectDataBase } from './modelos/index.js';
-import routes from './routes/login.js'
+//importar las rutas
+import loginRouter from './routes/login.js'
+import usuarioRouter from './routes/usuario.js'
 
 // CONSTANTES
 
@@ -21,17 +23,9 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 
 // RUTAS
-app.get('/', (req, res) => {
-    res.render('index')
-})
+app.use('/', loginRouter)
 
-app.get('/ingresar', (req, res) => {
-    res.render('login/ingresar')
-})
-
-app.get('/registrarse', (req, res) => {
-    res.render('login/registrarse')
-})
+app.use('/usuario', usuarioRouter)
 
 // CONECCION A LA BASE DE DATOS
 connectDataBase()

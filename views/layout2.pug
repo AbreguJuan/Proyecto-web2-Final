@@ -1,0 +1,26 @@
+doctype html
+html 
+    head 
+        link(rel='stylesheet', href='/styles.css')
+        block metadata
+
+    body 
+        nav 
+            ul 
+                li 
+                    a(href='/ususario') Usuario
+                li 
+                    a(href='/publicaciones') Publicaciones 
+                li  
+                    a(href='/colecciones') Colecciones
+                li  
+                    a(href='/seguidores') Seguidores
+                li  
+                    a(href='/notificaciones') Notificaciones
+                li  
+                    a(href='/mensajes') Mensajes
+                li  
+                    a(href='/logout') Cerrar Sesion
+        main
+            div(style='padding: 20px;')
+                block content
