@@ -25,7 +25,7 @@ app.set('views', './views');
 // RUTAS
 app.use('/', loginRouter)
 
-app.use('/usuario', usuarioRouter)
+app.use('/', usuarioRouter)
 
 // CONECCION A LA BASE DE DATOS
 connectDataBase()
