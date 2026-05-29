@@ -4,7 +4,7 @@ const usuarioRouter = Router()
 
 //Usuario
 usuarioRouter.get('/usuario', (req, res) => {
-    res.render('usuario/indexUsuario')
+    res.render('usuario/usuario')
 })
 
 export default usuarioRouter

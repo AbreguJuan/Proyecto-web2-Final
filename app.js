@@ -1,11 +1,15 @@
 import 'dotenv/config';
 import express from 'express';
 import sequelize from './modelos/config.js';
-//import './modelos/index.js';
 import { connectDataBase } from './modelos/index.js';
 //importar las rutas
 import loginRouter from './routes/login.js'
 import usuarioRouter from './routes/usuario.js'
+import publicacionRouter from './routes/publicacion.js'
+import coleccionRouter from './routes/coleccion.js'
+import seguidorRouter from './routes/seguidor.js'
+import notificacionRouter from './routes/notificacion.js'
+import mensajeRouter from './routes/mensaje.js'
 
 // CONSTANTES
 
@@ -24,8 +28,12 @@ app.set('views', './views');
 
 // RUTAS
 app.use('/', loginRouter)
-
 app.use('/', usuarioRouter)
+app.use('/', publicacionRouter)
+app.use('/', coleccionRouter)
+app.use('/', seguidorRouter)
+app.use('/', notificacionRouter)
+app.use('/', mensajeRouter)
 
 // CONECCION A LA BASE DE DATOS
 connectDataBase()
