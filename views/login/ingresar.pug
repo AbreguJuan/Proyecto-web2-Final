@@ -2,10 +2,10 @@ extends ../layout.pug
 
 block content
     h1 Ingresar
-    form(action="/login/ingresar" method="POST")
+    form(action="/ingresar" method="POST")
         div 
-            label Usuario:
-                input(type="text", id="username", name="username")
+            label Email:
+                input(type="text", id="email", name="email")
         div
             label Contraseña:
                 input(type="password", id="password", name="password")

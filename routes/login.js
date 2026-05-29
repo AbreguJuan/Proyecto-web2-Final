@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { ingresarFormulario, ingresarUsuario } from "../controler/login.js"
 
 const loginRouter = Router()
 
@@ -7,9 +8,9 @@ loginRouter.get('/', (req, res) => {
     res.render('index')
 })
 
-loginRouter.get('/ingresar', (req, res) => {
-    res.render('login/ingresar')
-})
+loginRouter.get('/ingresar', ingresarFormulario)
+
+loginRouter.post('/ingresar', ingresarUsuario)
 
 loginRouter.get('/registrarse', (req, res) => {
     res.render('login/registrarse')
