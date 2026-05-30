@@ -7,26 +7,30 @@ export async function ingresarFormulario(req, res) {
 
 //Procesa el formulario de Ingresar Usuario
 export async function ingresarUsuario(req, res) {
+    //Obtiene los datos del formulario
     const { email, password } = req.body
-    /*const mail = email.trim()
+    //Elimina los espacios en blanco al inicio y al final de los datos
+    const mail = email.trim()
     const pass = password.trim()
     //Validacion de campos vacios
     if (!mail || !pass) {
-        return res.status(400).render('login/ingresar', { W
+        res.status(400).render('login/ingresar', {
             alert: {
                 status: "error",
                 text: "Por favor, ingrese su correo electrónico y contraseña"
             },
             formValues: req.body
         })
-        return
-    }*/
+        console.log('Campos vacíos o faltan completaro algun campo') //solo lo puedo ver yo
+        return 
+    }
 
     try {
 
         const usuarioEncontrado = await Usuario.findOne({ 
             where: { 
-                email: mail 
+                email: mail,
+                password: pass
             } 
         })
         if (!usuarioEncontrado) {
@@ -37,10 +41,11 @@ export async function ingresarUsuario(req, res) {
                 },
                 formValues: req.body
             })
+            console.log('Usuario no encontrado') //solo lo puedo ver yo
             return
         }
 
-        const isValidated = await usuarioEncontrado.validatePassword(pass)
+        /*const isValidated = await usuarioEncontrado.validatePassword(pass)
         if (!isValidated) {
             return res.status(401).render('login/ingresar', { 
                 alert: {
@@ -50,11 +55,12 @@ export async function ingresarUsuario(req, res) {
                 formValues: req.body
             })
             return
-        }
-
-        req.session.user = {
+        }*/
+        //Si el usuario es encontrado y la contraseña es correcta => crea la sesion del usuario
+        /*req.session.Usuario = {
             id: usuarioEncontrado.id,
-        }
+        }*/ //ultimo video mirar
+
     } catch (error) {
         console.error(error)
         return res.status(500).render('login/ingresar', { 
@@ -69,4 +75,16 @@ export async function ingresarUsuario(req, res) {
 
     //Si esta todo ok => redirecciona a la pagina de inicio
     res.redirect('/usuario')
+}
+
+export async function registrarseFormulario(req, res) {
+    res.render('login/registrarse')
+}
+
+export async function registrarseUsuario(req, res) {
+
+}
+
+export async function cerrarSesion(req, res) {
+    res.redirect('/login')
 }
