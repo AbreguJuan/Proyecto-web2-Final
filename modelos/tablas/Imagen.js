@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config.js";
 
-class Imagen extends Model {}
+export class Imagen extends Model {}
 
 Imagen.init(
     {
