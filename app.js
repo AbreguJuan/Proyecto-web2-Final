@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { text } from 'express';
 import sequelize from './modelos/config.js';
 import { connectDataBase } from './modelos/index.js';
 //importar las rutas
@@ -20,7 +20,7 @@ const app = express()
 
 // MIDDLEWARES
 app.use(express.static('public'))
-app.use(express.json( { limit: '10mb' }))
+app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // MOTOR DE PLANTILLAS
@@ -46,9 +46,10 @@ app.get('/gallery', async (req, res) => {
     const arregloImagenes = []
     for (const imagen of files) {
         const imgBase64 = imagen.contenido.toString('base64')
+        const sufix = `data:image/${imagen.metadata};base64,`
         arregloImagenes.push({
             name: imagen.titulo,
-            src: imagen.metadata + ',' + imgBase64
+            src: sufix + imgBase64
         })
     }
     res.render('imagen/view', {
@@ -57,16 +58,20 @@ app.get('/gallery', async (req, res) => {
 })
 
 app.post('/img', async (req, res) => {
-    const body = req.body
-    const textBase64 = req.body.imgs[0].src
-    const arregloBase64 = textBase64.split(',')
-    
-    const imgBuffer = Buffer.from(arregloBase64[1], 'base64')
-    await Imagen.create({
-        contenido: imgBuffer,
-        titulo: req.body.imgs[0].name,
-        metadata: arregloBase64[0]
-    })
+    const imagenes = req.body.imgs
+
+    for (const img of imagenes) {
+        const textBase64 = img.src
+
+        const arregloBase64 = textBase64.split(',')
+        const imgBuffer = Buffer.from(arregloBase64[1], 'base64')
+
+        await Imagen.create({
+            contenido: imgBuffer,
+            titulo: req.body.imgs[0].name,
+            metadata: arregloBase64[0]
+        })
+    }
     //Conversion para guardar en db
     res.redirect('/gallery')
 })
