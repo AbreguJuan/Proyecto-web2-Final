@@ -1,0 +1,22 @@
+extends ../layout2.pug
+
+block content
+    h1 Publicaciones
+    p Bienvenido a la página de publicaciones. 
+
+    h1 Crear Publicación
+    form(action="/publicacion" method="POST")
+        div 
+            label Titulo:
+                input(type="text", id="title", name="title")
+        div
+            label Contenido:
+                input(type="text", id="description", name="description")
+        div
+            label Imagen:
+                input(type="file", id="imagen", name="imagen", multiple)
+        div 
+            label Etiquetas:
+                input(type="text", id="tags", name="tags")
+        div 
+            button(type="submit") Crear Publicación

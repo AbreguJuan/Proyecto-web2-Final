@@ -20,7 +20,7 @@ const app = express()
 // MIDDLEWARES
 app.use(express.static('public'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // MOTOR DE PLANTILLAS
 app.set('view engine', 'pug');
@@ -34,6 +34,20 @@ app.use('/', coleccionRouter)
 app.use('/', seguidorRouter)
 app.use('/', notificacionRouter)
 app.use('/', mensajeRouter)
+
+// RUTA DE PRUEBA de Imagenes
+app.get('/img', (req, res) => {
+    res.render('imagen/indexImagen')
+})
+
+app.post('/img', (req, res) => {
+    const imgSubida = req.body.imagenBase64
+    res.render('imagen/view', {
+        imagen: {
+            src: imgSubida
+        }
+    })
+})
 
 // CONECCION A LA BASE DE DATOS
 connectDataBase()

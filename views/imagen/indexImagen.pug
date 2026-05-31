@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Imagen Detalles
+    body
+        form(action="/img" method="post")
+            div 
+                label(form="img")
+                input(type="file" name="img" id="img")
+            div
+                textarea(name="imagenBase64" id="imagenBase64" value="Cargue la imagen")
+            input(type="submit" value="Enviar")
+
+    script(src="/scriptImagen.js")
