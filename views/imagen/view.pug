@@ -6,6 +6,7 @@ html(lang="en")
         title Imagen Detalles
     body
         h1 Imagen Resultante
-        each imagen in imagenes
-            p #{imagen.name}
-            img(src=imagen.src)
+        if imagenes 
+            each imagen in imagenes
+                p #{imagen.name}
+                img(src=imagen.src)

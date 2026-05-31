@@ -10,7 +10,11 @@ Imagen.init(
             primaryKey: true,
             autoIncrement: true
         },
-        Imagen: {
+        titulo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        contenido: {
             type: DataTypes.BLOB
         },
         copyright: {
@@ -18,6 +22,10 @@ Imagen.init(
         },
         watermark: {
             type: DataTypes.BOOLEAN
+        },
+        metadata: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     }, {
         sequelize,

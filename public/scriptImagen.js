@@ -20,6 +20,10 @@ form.addEventListener('submit', (e) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(bodyToSend)
+    }).then(()=>{
+        window.location.assign('gallery')
+    }).catch((err) => {
+        console.log(err)
     })
 })
 
