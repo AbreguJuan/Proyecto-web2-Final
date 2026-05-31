@@ -5,12 +5,16 @@ html(lang="en")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title Imagen Detalles
     body
+        div#imgsPreview
         form(action="/img" method="post")
             div 
                 label(form="img")
-                input(type="file" name="img" id="img")
-            div
-                textarea(name="imagenBase64" id="imagenBase64" value="Cargue la imagen")
+                input(type="file" name="img" id="img" multiple)
+            div#imgsBase64
+                //textarea(name="imagenBase64" id="imagenBase64" hidden)
             input(type="submit" value="Enviar")
+
+            div 
+                ul#errores
 
     script(src="/scriptImagen.js")

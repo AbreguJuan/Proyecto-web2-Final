@@ -19,7 +19,7 @@ const app = express()
 
 // MIDDLEWARES
 app.use(express.static('public'))
-app.use(express.json())
+app.use(express.json( { limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // MOTOR DE PLANTILLAS
@@ -41,11 +41,9 @@ app.get('/img', (req, res) => {
 })
 
 app.post('/img', (req, res) => {
-    const imgSubida = req.body.imagenBase64
+    const body = req.body
     res.render('imagen/view', {
-        imagen: {
-            src: imgSubida
-        }
+        imagenes: body.imgs
     })
 })
 
