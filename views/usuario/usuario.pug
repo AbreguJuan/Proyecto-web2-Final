@@ -1,9 +1,12 @@
 extends ../layout2.pug
 
+block metadata
+    title Usuario: #{Usuario ? Usuario.username : 'No encontrado'}
+
 block content
     div
         if Usuario
-            h1 Bienvenido #{Usuario.firstname}
+            h1 Bienvenido #{Usuario.firstName}
             p Cuenta creada desde #{Usuario.createdAt}
             p cumpleanios #{Usuario.birthDate}
             a seguidores

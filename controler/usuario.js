@@ -12,12 +12,14 @@ export async function perfilUsuario(req, res) {
                 username: name
             }
         })
+        //console.log(usuario)
 
         if (!usuario) {
             console.log("No se encontro al usuario")
             //return res.redirect("/usuario")
         }
-        
+        // Renderizar la vista pasando el usuario convertido a JSON
+        res.render('usuario/usuario', { Usuario: usuario.toJSON() });
     } catch (error) {
         console.log("Error al entrar al perfil: ", error)
     }
