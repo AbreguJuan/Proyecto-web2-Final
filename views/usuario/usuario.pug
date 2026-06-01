@@ -1,6 +1,17 @@
 extends ../layout2.pug
 
 block content
-    h1 Usuario
-    p Bienvenido a la página de usuarios. Aquí podrás gestionar tus usuarios, ver sus perfiles y realizar diversas acciones relacionadas con la administración de usuarios en nuestra aplicación. Explora las opciones disponibles para administrar tus usuarios de manera eficiente.
-    
+    div
+        if Usuario
+            h1 Bienvenido #{Usuario.firstname}
+            p Cuenta creada desde #{Usuario.createdAt}
+            p cumpleanios #{Usuario.birthDate}
+            a seguidores
+            a siguiendo
+        else 
+            h1 No se encontro el usuario
+    div 
+
+        a editar
+
+        a denunciar

@@ -35,6 +35,7 @@ app.use('/', coleccionRouter)
 app.use('/', seguidorRouter)
 app.use('/', notificacionRouter)
 app.use('/', mensajeRouter)
+
 app.use('/', imagenRouter)
 
 // CONECCION A LA BASE DE DATOS
