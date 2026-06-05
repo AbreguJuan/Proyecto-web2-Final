@@ -4,7 +4,7 @@ import Usuario from "./Usuario.js";
 import Publicacion from "./Publicacion.js";
 import Comentario from "./Comentario.js";
 
-class Denuncia extends Model { }
+export class Denuncia extends Model { }
 
 Denuncia.init(
     {

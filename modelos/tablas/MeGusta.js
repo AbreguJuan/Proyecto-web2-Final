@@ -3,7 +3,7 @@ import sequelize from "../config.js";
 import Publicacion from "./Publicacion.js";
 import Usuario from "./Usuario.js";
 
-class MeGusta extends Model {}
+export class MeGusta extends Model {}
 
 MeGusta.init(
     {

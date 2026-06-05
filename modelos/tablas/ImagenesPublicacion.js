@@ -3,7 +3,7 @@ import sequelize from "../config.js";
 import Publicacion from "./Publicacion.js";
 import Imagen from "./Imagen.js";
 
-class ImagenesPublicacion extends Model {}
+export class ImagenesPublicacion extends Model {}
 
 ImagenesPublicacion.init(
     {

@@ -9,12 +9,12 @@ block content
             h1 Bienvenido #{Usuario.firstName}
             p Cuenta creada desde #{Usuario.createdAt}
             p cumpleanios #{Usuario.birthDate}
-            a seguidores
-            a siguiendo
+            a(href="#") seguidores
+            a(href="#") siguiendo
         else 
             h1 No se encontro el usuario
     div 
+        
+        a(href="#") editar
 
-        a editar
-
-        a denunciar
+        a(href="#") denunciar

@@ -12,7 +12,11 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const bodyToSend = {
         imgs: arregloImgs,
-        fecha: new Date().toLocaleTimeString()
+        fecha: new Date().toLocaleTimeString(),
+        //Agregue esto para enviar tambien los otros datos y no solo la imagen
+        titulo: document.getElementById('titulo').value,
+        contenido: document.getElementById('contenido').value,
+        etiqueta: document.getElementById('etiqueta').value
     }
     fetch(form.action, {
         method: 'post',
@@ -21,7 +25,10 @@ form.addEventListener('submit', (e) => {
         },
         body: JSON.stringify(bodyToSend)
     }).then(()=>{
-        window.location.assign('gallery')
+        //Cambiar esto si falla
+        //window.location.assign('gallery')
+        //Nuevo cambio
+        window.location.assign('/publicacion')
     }).catch((err) => {
         console.log(err)
     })

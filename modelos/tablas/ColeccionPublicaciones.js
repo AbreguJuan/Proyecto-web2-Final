@@ -3,7 +3,7 @@ import sequelize from "../config.js";
 import Publicacion from "./Publicacion.js";
 import Coleccion from "./Coleccion.js";
 
-class ColeccionPublicaciones extends Model { }
+export class ColeccionPublicaciones extends Model { }
 
 ColeccionPublicaciones.init(
     {

@@ -2,7 +2,7 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../config.js";
 import Usuario from "./Usuario.js";
 
-class Mensajes extends Model { }
+export class Mensajes extends Model { }
 
 Mensajes.init(
     {

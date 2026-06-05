@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config.js";
 
-class Etiqueta extends Model {}
+export class Etiqueta extends Model {}
 
 Etiqueta.init(
     {

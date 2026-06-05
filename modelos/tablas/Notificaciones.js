@@ -5,7 +5,7 @@ import Publicacion from "./Publicacion.js";
 import Seguidores from "./Seguidores.js";
 import Comentario from "./Comentario.js";
 
-class Notificaciones extends Model { }
+export class Notificaciones extends Model { }
 
 Notificaciones.init(
     {

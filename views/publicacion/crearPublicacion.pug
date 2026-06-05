@@ -1,22 +1,28 @@
 extends ../layout2.pug
 
 block content
-    h1 Publicaciones
-    p Bienvenido a la página de publicaciones. 
-
     h1 Crear Publicación
-    form(action="/publicacion" method="POST")
+    form(action="/publicacion/crearPublicacion" method="POST" enctype="multipart/form-data")
         div 
-            label Titulo:
-                input(type="text", id="title", name="title")
+            label Titulo: 
+                input(type="text", id="titulo", name="titulo")
         div
-            label Contenido:
-                input(type="text", id="description", name="description")
-        div
-            label Imagen:
-                input(type="file", id="imagen", name="imagen", multiple)
+            label Contenido: 
+                input(type="text", id="contenido", name="contenido")
+        //Div de imagenes
+        div#imgsPreview
+            div 
+                label Imagen: 
+                    input(type="file" name="img" id="img" multiple)
+            div#imgsBase64
+                //textarea(name="imagenBase64" id="imagenBase64" hidden)
+            div 
+                ul#errores
+        //Div. de Etiquetas
         div 
-            label Etiquetas:
-                input(type="text", id="tags", name="tags")
+            label Etiquetas: 
+                input(type="text", id="etiqueta", name="etiqueta")
         div 
             button(type="submit") Crear Publicación
+    //Script para poder subir imagen y previsualizarla
+    script(src="/scriptImagen.js")
