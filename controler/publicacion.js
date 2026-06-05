@@ -9,9 +9,22 @@ import usuarioRouter from '../routes/usuario.js'
 export async function mostrarPublicaciones(req, res) {
     try {
         const publicaciones = await Publicacion.findAll({
-            include: [Imagen, Etiqueta, Usuario, Comentario]
+            //include: [Imagen, Etiqueta, Usuario, Comentario]
+            include: [{ model: Usuario }, { model: Imagen }],
+            order: [['createdAt', 'DESC']]
         })
-        res.render('publicacion/publicacion', { Publicacion: publicaciones })
+        //me trae las imagenes guardadas en binario y las convierte a base 64
+        const publicacionesConImagenes = publicaciones.map(post => {
+            const postJson = post.toJSON()
+            postJson.Imagens = postJson.Imagens.map(img => ({
+                ...img,
+                src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
+            }))
+            
+            return postJson
+        })
+        //console.log('IMAGENS:', JSON.stringify(publicacionesConImagenes[0]?.Imagens))
+        res.render('publicacion/publicacion', { Publicacion: publicacionesConImagenes })
     } catch (error) {
         console.log(error)
     }
@@ -22,7 +35,7 @@ export async function getCrearPublicacion(req, res) {
 }
 
 export const postCrearPublicaion = async (req, res) => {
-    console.log("req.body: ", req.body)
+
     const { titulo, contenido, img, etiqueta } = req.body;
     //Datos para obtener al usuario y mandarlo al pug
     const idUsuario = 1 //aca tengo que cambiarlo por session
@@ -48,12 +61,12 @@ export const postCrearPublicaion = async (req, res) => {
                     metadata: arregloBase64[0]
                 })
                 //Llena la tabla relacion de imagenesPublicacion
-                await post.addImagen(imagenCreada)
+                await post.addImagen(ImagenCreada)
             }
         }
         //Si todo anda bien, me redirige al menu
         res.redirect('/publicacion')
-        
+
     } catch (error) {
         console.log(error)
         res.redirect('/publicacion/crearPublicacion')

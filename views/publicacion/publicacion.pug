@@ -14,11 +14,10 @@ block content
                     h2 #{post.titulo} 
                 div
                     h3 #{post.contenido}
-                div    
-                    if imagenes
-                        each imagen in imagenes
-                            p #{imagen.name}
-                            img(src=imagen.src)
+                div
+                    if post.Imagens
+                        each imagen in post.Imagens
+                            img(src=imagen.src, style="width:300px")
                 div 
                     if Etiqueta
                         each etiqueta in etiquetas
