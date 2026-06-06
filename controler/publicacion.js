@@ -9,8 +9,7 @@ import usuarioRouter from '../routes/usuario.js'
 export async function mostrarPublicaciones(req, res) {
     try {
         const publicaciones = await Publicacion.findAll({
-            //include: [Imagen, Etiqueta, Usuario, Comentario]
-            include: [{ model: Usuario }, { model: Imagen }],
+            include: [{ model: Usuario }, { model: Imagen }, {model: Etiqueta}],
             order: [['createdAt', 'DESC']]
         })
         //me trae las imagenes guardadas en binario y las convierte a base 64
@@ -20,10 +19,9 @@ export async function mostrarPublicaciones(req, res) {
                 ...img,
                 src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
             }))
-            
             return postJson
         })
-        //console.log('IMAGENS:', JSON.stringify(publicacionesConImagenes[0]?.Imagens))
+        //Renderiza la publicacion con cada imagen
         res.render('publicacion/publicacion', { Publicacion: publicacionesConImagenes })
     } catch (error) {
         console.log(error)
@@ -35,12 +33,10 @@ export async function getCrearPublicacion(req, res) {
 }
 
 export const postCrearPublicaion = async (req, res) => {
-
     const { titulo, contenido, img, etiqueta } = req.body;
     //Datos para obtener al usuario y mandarlo al pug
     const idUsuario = 1 //aca tengo que cambiarlo por session
     include: [{ model: Usuario }]
-
     try {
         //PUBLICACION
         const post = await Publicacion.create({
@@ -64,9 +60,24 @@ export const postCrearPublicaion = async (req, res) => {
                 await post.addImagen(ImagenCreada)
             }
         }
+        // ETIQUETAS
+        if (etiqueta) {
+            // Separar por coma o espacio
+            const nombresEtiquetas = etiqueta
+                .split(/[\s,]+/)        // separa por espacio o coma
+                .filter(e => e !== '')  // elimina strings vacíos
+
+            for (const nombre of nombresEtiquetas) {
+                // Si existe la usa, si no la crea
+                const [etiquetaEncontrada] = await Etiqueta.findOrCreate({
+                    where: { etiqueta: nombre.toLowerCase() }
+                })
+                await post.addEtiqueta(etiquetaEncontrada)
+            }
+        }
         //Si todo anda bien, me redirige al menu
         res.redirect('/publicacion')
-
+        //Sino entra al catch
     } catch (error) {
         console.log(error)
         res.redirect('/publicacion/crearPublicacion')

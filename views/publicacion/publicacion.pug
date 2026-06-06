@@ -19,9 +19,9 @@ block content
                         each imagen in post.Imagens
                             img(src=imagen.src, style="width:300px")
                 div 
-                    if Etiqueta
-                        each etiqueta in etiquetas
-                            p #{etiqueta.nombre}
+                    if post.Etiqueta
+                        each etiqueta in post.Etiqueta
+                            p #{etiqueta.etiqueta}
                 div
                     a #{post.createdAt}
                 div
