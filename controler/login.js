@@ -21,41 +21,42 @@ export async function ingresarUsuario(req, res) {
             },
             formValues: req.body
         })
-        console.log('Campos vacíos o faltan completaro algun campo') //solo lo puedo ver yo
         return
     }
 
     try {
-
+        //Busca usuario por email
         const usuarioEncontrado = await Usuario.findOne({
             where: {
-                email: mail,
-                password: pass
+                email: mail
             }
         })
+        //Si no existe el usuario
         if (!usuarioEncontrado) {
-            return res.status(401).render('login/ingresar', {
+            return res.status(400).render('login/ingresar', {
                 alert: {
                     status: "error",
                     text: "Correo electrónico o contraseña incorrectos"
                 },
+                //manda devuelta los datos en caso de error
                 formValues: req.body
             })
-            console.log('Usuario no encontrado') //solo lo puedo ver yo
             return
         }
+        //Validar la contraseña con bcrypt
+        const isValidated = await usuarioEncontrado.validatePassword(pass)
 
-        /*const isValidated = await usuarioEncontrado.validatePassword(pass)
         if (!isValidated) {
-            return res.status(401).render('login/ingresar', { 
+            return res.status(400).render('login/ingresar', { 
                 alert: {
                     status: "error",
                     text: "Correo electrónico o contraseña incorrectos"
                 },
+                //manda devuelta los datos en caso de error
                 formValues: req.body
             })
             return
-        }*/
+        }
         //Si el usuario es encontrado y la contraseña es correcta => crea la sesion del usuario
         /*req.session.Usuario = {
             id: usuarioEncontrado.id,
@@ -91,11 +92,25 @@ export async function registrarseUsuario(req, res) {
     const confirmPass = confirmPassword.trim()
 
     if (!usernameT || !mail || !pass || !confirmPass) {
-        //ERROR
+        return res.status(400).render('login/registrarse', { 
+            alert: { 
+                status: 'error', 
+                text: 'Todos los campos son obligatorios' 
+            },
+            //manda devuelta los datos en caso de error
+            formValues: req.body 
+        })
     }
 
     if (pass != confirmPass) {
-        //ERROR
+        return res.status(400).render('login/registrarse', { 
+            alert: { 
+                status: 'error', 
+                text: 'Las contraseñas no coinciden' 
+            },
+            //manda devuelta los datos en caso de error
+            formValues: req.body 
+        })
     }
 
     try {
@@ -107,9 +122,14 @@ export async function registrarseUsuario(req, res) {
         //Si todo sale bien me redirige al menu principal
         res.redirect('/')
     } catch (error) {
-        console.log("Error al registrar usuario: ", error)
-        //manda devuelta los datos en caso de error
-        formValues: req.body
+        return res.status(500).render('login/registrarse', { 
+            alert: { 
+                status: 'error', 
+                text: 'Error al registrar usuario'
+            },
+            //manda devuelta los datos en caso de error
+            formValues: req.body 
+        })
     }
 }
 
