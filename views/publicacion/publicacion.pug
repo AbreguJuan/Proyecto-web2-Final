@@ -7,28 +7,21 @@ block content
     div
         div
             a(href='/publicacion/crearPublicacion') Crear nueva publicación
-    div 
+    div
         if Publicacion
             each post in Publicacion   
-                div
+                div.publicacion
                     h2 #{post.titulo} 
-                div
                     h3 #{post.contenido}
-                div
                     if post.Imagens
                         each imagen in post.Imagens
                             img(src=imagen.src, style="width:300px")
-                div 
                     if post.Etiqueta
                         each etiqueta in post.Etiqueta
                             p #{etiqueta.etiqueta}
-                div
                     p Creado #{new Date(post.createdAt).toLocaleDateString('es-AR')}
-                div
-                    a Creado por: #{post.Autor.firstName || post.Autor.username}
-                div
+                    a(href=`/usuario/${post.Autor.username}`) Creado por: #{post.Autor.firstName || post.Autor.username}
                     a Me gusta Publicacion
-                div
                     a Comentarios Publicacion
     
 

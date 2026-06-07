@@ -99,3 +99,58 @@ h2 {
 h3 {
     color: #666;
 }
+/* PUBLICACIONES */
+.publicaciones {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+div.publicacion {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+div {
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #333;
+}
+
+h3 {
+    color: #666;
+}
+
+img {
+    width: 300px;
+    border: 1px solid #ccc;
+}
+
+p {
+    color: #888;
+    font-size: 14px;
+}
+
+/* USUARIO */
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+div.usuario {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

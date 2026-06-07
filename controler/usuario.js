@@ -29,7 +29,8 @@ export async function perfilUsuario(req, res) {
                     { model: Imagen },
                     { model: Usuario, as: 'Autor' } 
                 ]
-            }]
+            }],
+            order: [['createdAt', 'DESC']]
         })
 
         if (!usuario) {
