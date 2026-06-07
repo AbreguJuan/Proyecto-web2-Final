@@ -22,19 +22,19 @@ export async function ingresarUsuario(req, res) {
             formValues: req.body
         })
         console.log('Campos vacíos o faltan completaro algun campo') //solo lo puedo ver yo
-        return 
+        return
     }
 
     try {
 
-        const usuarioEncontrado = await Usuario.findOne({ 
-            where: { 
+        const usuarioEncontrado = await Usuario.findOne({
+            where: {
                 email: mail,
                 password: pass
-            } 
+            }
         })
         if (!usuarioEncontrado) {
-            return res.status(401).render('login/ingresar', { 
+            return res.status(401).render('login/ingresar', {
                 alert: {
                     status: "error",
                     text: "Correo electrónico o contraseña incorrectos"
@@ -63,11 +63,12 @@ export async function ingresarUsuario(req, res) {
 
     } catch (error) {
         console.error(error)
-        return res.status(500).render('login/ingresar', { 
+        return res.status(500).render('login/ingresar', {
             alert: {
                 status: "error",
                 text: "Ocurrió un error al iniciar sesión. Por favor, inténtelo de nuevo más tarde."
             },
+            //manda devuelta los datos en caso de error
             formValues: req.body
         })
         return
@@ -82,7 +83,34 @@ export async function registrarseFormulario(req, res) {
 }
 
 export async function registrarseUsuario(req, res) {
+    const { username, email, password, confirmPassword } = req.body
 
+    const usernameT = username.trim()
+    const mail = email.trim()
+    const pass = password.trim()
+    const confirmPass = confirmPassword.trim()
+
+    if (!usernameT || !mail || !pass || !confirmPass) {
+        //ERROR
+    }
+
+    if (pass != confirmPass) {
+        //ERROR
+    }
+
+    try {
+        const user = await Usuario.create({
+            username: username,
+            email: mail,
+            password: pass
+        })
+        //Si todo sale bien me redirige al menu principal
+        res.redirect('/')
+    } catch (error) {
+        console.log("Error al registrar usuario: ", error)
+        //manda devuelta los datos en caso de error
+        formValues: req.body
+    }
 }
 
 export async function cerrarSesion(req, res) {

@@ -1,19 +1,23 @@
 extends ../layout.pug
 
 block content
+    include ../alertas.pug
+    +alert(alert)
     h1 Registrarse
-    form(action="/login/registrarse" method="POST")
+    form(action="/registrarse" method="POST")
         div 
             label Usuario:
-                input(type="text", id="username", name="username")
+                input(type="text", id="username", name="username", required, value=formValues ? formValues.username : '')
         div
             label Correo Electronico:
-                input(type="email", id="email", name="email")
+                input(type="email", id="email", name="email", required, value=formValues ? formValues.email : '')
         div
-            label Contraseña:
-                input(type="password", id="password", name="password")
+            label Password:
+                input(type="password", id="password", name="password", required, value=formValues ? formValues.password : '')
         div
-            label Confirmar Contraseña:
-                input(type="password", id="confirmPassword", name="confirmPassword")
+            label Confirmar Password:
+                input(type="password", id="confirmPassword", name="confirmPassword", required, value=formValues ? formValues.confirmPassword : '')
         div
             button(type="submit") Registrarse
+
+    

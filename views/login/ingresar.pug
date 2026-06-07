@@ -1,13 +1,17 @@
 extends ../layout.pug
 
 block content
+    include ../alertas.pug
+    +alert(alert)
     h1 Ingresar
     form(action="/ingresar" method="POST")
         div 
             label Email:
-                input(type="text", id="email", name="email")
+                input(type="text", id="email", name="email", required, value=formValues ? formValues.email : '')
         div
             label Contraseña:
-                input(type="password", id="password", name="password")
+                input(type="password", id="password", name="password" required, value=formValues ? formValues.password : '')
         div
             button(type="submit") Ingresar
+    
+    
