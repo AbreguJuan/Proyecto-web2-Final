@@ -9,7 +9,11 @@ import usuarioRouter from '../routes/usuario.js'
 export async function mostrarPublicaciones(req, res) {
     try {
         const publicaciones = await Publicacion.findAll({
-            include: [{ model: Usuario }, { model: Imagen }, {model: Etiqueta}],
+            include: [
+                { model: Usuario, as: 'Autor' },
+                { model: Imagen },
+                { model: Etiqueta }
+            ],
             order: [['createdAt', 'DESC']]
         })
         //me trae las imagenes guardadas en binario y las convierte a base 64

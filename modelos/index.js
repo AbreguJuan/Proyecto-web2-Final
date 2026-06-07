@@ -22,10 +22,12 @@ import Mensajes from "./tablas/Mensajes.js";
 
 //Usuario tiene muchas publicaciones
 Usuario.hasMany(Publicacion, {
-    foreignKey: 'idUsuario'
+    foreignKey: 'idUsuario',
+    as: 'Publicaciones'
 })
 Publicacion.belongsTo(Usuario, {
-    foreignKey: 'idUsuario'
+    foreignKey: 'idUsuario',
+    as: 'Autor'
 })
 
 //Publicacion tiene muchas imagenes y varias imagenes pueden pertenecer a varias publicaciones

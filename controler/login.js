@@ -59,7 +59,10 @@ export async function ingresarUsuario(req, res) {
         //Si el usuario es encontrado y la contraseña es correcta => crea la sesion del usuario
         req.session.Usuario = {
             id: usuarioEncontrado.idUsuario,
-        } //ultimo video mirar
+        } 
+
+        //Si esta todo ok => redirecciona a la pagina de inicio
+        res.redirect(`/usuario/${usuarioEncontrado.username}`)
 
     } catch (error) {
         console.error(error)
@@ -73,9 +76,6 @@ export async function ingresarUsuario(req, res) {
         })
         return
     }
-
-    //Si esta todo ok => redirecciona a la pagina de inicio
-    res.redirect('/usuario')
 }
 
 export async function registrarseFormulario(req, res) {
