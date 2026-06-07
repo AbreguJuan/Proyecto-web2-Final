@@ -35,8 +35,7 @@ export async function getCrearPublicacion(req, res) {
 export const postCrearPublicaion = async (req, res) => {
     const { titulo, contenido, img, etiqueta } = req.body;
     //Datos para obtener al usuario y mandarlo al pug
-    const idUsuario = 1 //aca tengo que cambiarlo por session
-    include: [{ model: Usuario }]
+    const idUsuario = req.session.Usuario.id
     try {
         //PUBLICACION
         const post = await Publicacion.create({

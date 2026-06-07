@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express, { text } from 'express';
+import session from 'express-session';
 import sequelize from './modelos/config.js';
 import { connectDataBase } from './modelos/index.js';
 //importar las rutas
@@ -11,7 +12,8 @@ import seguidorRouter from './routes/seguidor.js'
 import notificacionRouter from './routes/notificacion.js'
 import mensajeRouter from './routes/mensaje.js'
 
-import imagenRouter from './routes/imagen.js';
+//import imagenRouter from './routes/imagen.js';
+
 // CONSTANTES
 
 const PORT = process.env.PORT
@@ -22,6 +24,17 @@ const app = express()
 app.use(express.static('public'))
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
+//Para mantener la sesion activa
+app.use(session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    cookie: {
+        secure: false, //en produccion cambiarlo a true
+        maxAge: 24 * 60 * 60 + 1000, // 24h + 60m + 60s + 1000milisegundos
+        httpOnly: true,
+        sameSite: 'lax' //SERVER SIDE RENDERY (SSR)
+    }
+}))
 
 // MOTOR DE PLANTILLAS
 app.set('view engine', 'pug');
@@ -36,7 +49,7 @@ app.use('/', seguidorRouter)
 app.use('/', notificacionRouter)
 app.use('/', mensajeRouter)
 
-app.use('/', imagenRouter)
+//app.use('/', imagenRouter)
 
 // CONECCION A LA BASE DE DATOS
 connectDataBase()

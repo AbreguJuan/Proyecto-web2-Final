@@ -1,4 +1,4 @@
-extends ../layout2.pug
+extends ../layout.pug
 
 block metadata
     title Usuario: #{Usuario ? Usuario.username : 'No encontrado'}
@@ -6,9 +6,10 @@ block metadata
 block content
     div
         if Usuario
-            h1 Bienvenido #{Usuario.firstName}
-            p Cuenta creada desde #{Usuario.createdAt}
-            p cumpleanios #{Usuario.birthDate}
+            h1 Bienvenido #{Usuario.firstName || Usuario.username}
+            p Cuenta creada desde #{new Date(Usuario.createdAt).toLocaleDateString('es-AR')}
+            if Usuario.birthDate
+                p Cumpleaños: #{Usuario.birthDate}
             a(href="#") seguidores
             a(href="#") siguiendo
         else 

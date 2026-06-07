@@ -1,4 +1,4 @@
-extends ../layout2.pug
+extends ../layout.pug
 
 block content
     h1 Publicaciones
@@ -23,9 +23,9 @@ block content
                         each etiqueta in post.Etiqueta
                             p #{etiqueta.etiqueta}
                 div
-                    a #{post.createdAt}
+                    p Creado #{new Date(post.createdAt).toLocaleDateString('es-AR')}
                 div
-                    a Creado por: #{post.Usuario.firstName}
+                    a Creado por: #{post.Usuario.firstName || post.Usuario.username}
                 div
                     a Me gusta Publicacion
                 div

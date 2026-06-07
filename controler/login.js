@@ -45,7 +45,6 @@ export async function ingresarUsuario(req, res) {
         }
         //Validar la contraseña con bcrypt
         const isValidated = await usuarioEncontrado.validatePassword(pass)
-
         if (!isValidated) {
             return res.status(400).render('login/ingresar', { 
                 alert: {
@@ -58,9 +57,9 @@ export async function ingresarUsuario(req, res) {
             return
         }
         //Si el usuario es encontrado y la contraseña es correcta => crea la sesion del usuario
-        /*req.session.Usuario = {
-            id: usuarioEncontrado.id,
-        }*/ //ultimo video mirar
+        req.session.Usuario = {
+            id: usuarioEncontrado.idUsuario,
+        } //ultimo video mirar
 
     } catch (error) {
         console.error(error)
@@ -134,5 +133,7 @@ export async function registrarseUsuario(req, res) {
 }
 
 export async function cerrarSesion(req, res) {
-    res.redirect('/login')
+    if(req.session) {
+        req.session.destroy(()=> res.redirect('/'))
+    }
 }

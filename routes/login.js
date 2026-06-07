@@ -1,5 +1,11 @@
 import { Router } from "express"
-import { ingresarFormulario, ingresarUsuario, registrarseFormulario, registrarseUsuario, cerrarSesion } from "../controler/login.js"
+import { 
+    ingresarFormulario, 
+    ingresarUsuario, 
+    registrarseFormulario, 
+    registrarseUsuario, 
+    cerrarSesion 
+} from "../controler/login.js"
 
 const loginRouter = Router()
 
@@ -16,6 +22,6 @@ loginRouter.get('/registrarse', registrarseFormulario)
 
 loginRouter.post('/registrarse', registrarseUsuario)
 
-loginRouter.get('/', cerrarSesion)
+loginRouter.get('/cerrarSesion', cerrarSesion)
 
 export default loginRouter

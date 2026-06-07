@@ -5,14 +5,31 @@ html
         block metadata
 
     body 
-        nav 
-            ul 
-                li 
-                    a(href='/') Pagina Principal 
-                li 
-                    a(href='/registrarse') Registrarse 
-                li  
-                    a(href='/ingresar') Ingresar
+        nav
+            ul
+                if currentUser
+                    li
+                        a(href='/usuario/' + currentUser.username) #{currentUser.firstName || currentUser.username}
+                    li 
+                        a(href='/publicacion') Publicaciones 
+                    li  
+                        a(href='/coleccion') Colecciones 
+                    li  
+                        a(href='/seguidor') Seguidores
+                    li  
+                        a(href='/notificacion') Notificaciones
+                    li  
+                        a(href='/mensaje') Mensajes
+                    li
+                        a(href='/cerrarSesion') Cerrar sesión
+                else
+                    li
+                        a(href='/') Página Principal
+                    li
+                        a(href='/registrarse') Registrarse
+                    li
+                        a(href='/ingresar') Ingresar
+
         main
             div(style='padding: 20px;')
                 block content
