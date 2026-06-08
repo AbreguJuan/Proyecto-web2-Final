@@ -2,7 +2,7 @@ extends ../layout.pug
 
 block metadata
     title Usuario: #{Usuario ? Usuario.username : 'No encontrado'}
-
+//-Perfil del usuario
 block content
     div.usuario
         if currentUser && currentUser.username === Usuario.username
@@ -18,7 +18,7 @@ block content
             h1 No se encontro el usuario
         a(href="#") editar
         a(href="#") denunciar
-
+    //-Publicaciones del propio perfil
     div
         if Usuario.Publicaciones
             each post in Usuario.Publicaciones 
