@@ -5,13 +5,13 @@ block content
     p Bienvenido a la página de publicaciones. 
 
     div
-        div
-            a(href='/publicacion/crearPublicacion') Crear nueva publicación
-    
-    div 
+        a(href='/publicacion/crearPublicacion') Crear nueva publicación
+
+    div
         form(action="/publicacion/buscar" method="GET")
             input(type="text", name="buscar", placeholder="Buscar por etiqueta o usuario")
             button(type="submit") Buscar
+
     div
         if Publicacion
             each post in Publicacion   
@@ -27,7 +27,8 @@ block content
                             p #{etiqueta.etiqueta}
                     p Creado #{new Date(post.createdAt).toLocaleDateString('es-AR')}
                     a(href=`/usuario/${post.Autor.username}`) Creado por: #{post.Autor.firstName || post.Autor.username}
-                    a Me gusta Publicacion
+                    form(action=`/publicacion/${post.idPublicacion}/megusta` method="POST")
+                        button(type="submit") Me gusta (#{post.MeGustas ? post.MeGustas.length : 0})
                     a(href=`/publicacion/${post.idPublicacion}`) Comentarios (#{post.Comentarios ? post.Comentarios.length : 0})
         else
             h1 No se encontraron publicaciones

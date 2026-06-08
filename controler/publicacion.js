@@ -20,7 +20,7 @@ export async function mostrarPublicacion(req, res) {
                 { model: Etiqueta },
                 {
                     model: Comentario,
-                    include: [{ model: Usuario }]  //Para mostrar quién comentó
+                    include: [{ model: Usuario, as: 'AutorDelComentario' }]
                 }
             ]
         })
@@ -29,11 +29,19 @@ export async function mostrarPublicacion(req, res) {
             return res.redirect('/publicacion')
         }
 
+        // Me gustas por separado
+        const meGustas = await MeGusta.findAll({
+            where: { idPublicacion }
+        })
+
         const publicacionJson = publicacion.toJSON()
         publicacionJson.Imagens = publicacionJson.Imagens.map(img => ({
             ...img,
             src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
         }))
+        publicacionJson.MeGustas = meGustas
+
+        console.log('IDPUBLICACION:', publicacionJson.idPublicacion) 
 
         res.render('publicacion/mostrarPublicacion', { Publicacion: publicacionJson })
     } catch (error) {
@@ -52,16 +60,20 @@ export async function mostrarPublicaciones(req, res) {
             ],
             order: [['createdAt', 'DESC']]
         })
-        //me trae las imagenes guardadas en binario y las convierte a base 64
-        const publicacionesConImagenes = publicaciones.map(post => {
+
+        // Me gustas por separado para cada publicacion
+        const publicacionesConImagenes = await Promise.all(publicaciones.map(async post => {
             const postJson = post.toJSON()
             postJson.Imagens = postJson.Imagens.map(img => ({
                 ...img,
                 src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
             }))
+            postJson.MeGustas = await MeGusta.findAll({
+                where: { idPublicacion: postJson.idPublicacion }
+            })
             return postJson
-        })
-        //Renderiza la publicacion con cada imagen
+        }))
+
         res.render('publicacion/publicacion', { Publicacion: publicacionesConImagenes })
     } catch (error) {
         console.log(error)
@@ -159,5 +171,43 @@ export async function buscarPublicaciones(req, res) {
     } catch (error) {
         console.log(error)
         res.redirect('/publicacion')
+    }
+}
+//Dar Me Gusta a una publicacion
+export async function postMeGusta(req, res) {
+    console.log('entró a postMeGusta, id:', req.params.id)
+    console.log('session:', req.session.Usuario)
+    const idPublicacion = req.params.id
+    const idUsuario = req.session.Usuario.id
+
+    try {
+        const publicacion = await Publicacion.findByPk(idPublicacion)
+
+        if (!publicacion) {
+            return res.redirect('/publicacion')
+        }
+
+        // No puede darse me gusta a su propia publicacion
+        if (publicacion.idUsuario === idUsuario) {
+            return res.redirect(`/publicacion/${idPublicacion}`)
+        }
+
+        // Verificar si ya le dio me gusta
+        const meGustaExistente = await MeGusta.findOne({
+            where: { idPublicacion, idUsuario }
+        })
+
+        if (meGustaExistente) {
+            // Si ya existe lo elimina
+            await meGustaExistente.destroy()
+        } else {
+            // Si no existe lo crea
+            await MeGusta.create({ idPublicacion, idUsuario })
+        }
+
+        res.redirect(`/publicacion/${idPublicacion}`)
+    } catch (error) {
+        console.log(error)
+        res.redirect(`/publicacion/${idPublicacion}`)
     }
 }

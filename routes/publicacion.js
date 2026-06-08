@@ -5,6 +5,7 @@ import {
     postCrearPublicaion,
     mostrarPublicacion,
     buscarPublicaciones,
+    postMeGusta,
 } from "../controler/publicacion.js"
 import { postPublicarComentario } from "../controler/comentario.js"
 import { authMiddleware } from '../middleware/autentificacion.js'
@@ -23,5 +24,7 @@ publicacionRouter.post('/publicacion/crearPublicacion', authMiddleware, postCrea
 publicacionRouter.get('/publicacion/:id', authMiddleware, mostrarPublicacion)
 
 publicacionRouter.post('/publicacion/:id/comentario', authMiddleware, postPublicarComentario)
+
+publicacionRouter.post('/publicacion/:id/megusta', authMiddleware, postMeGusta)
 
 export default publicacionRouter

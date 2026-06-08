@@ -14,16 +14,21 @@ block content
             p Creado #{new Date(Publicacion.createdAt).toLocaleDateString('es-AR')}
             a(href=`/usuario/${Publicacion.Autor.username}`) Creado por: #{Publicacion.Autor.firstName || Publicacion.Autor.username}
 
+            div.megusta
+                form(action=`/publicacion/${Publicacion.idPublicacion}/megusta` method="POST")
+                    button(type="submit") Me gusta (#{Publicacion.MeGustas ? Publicacion.MeGustas.length : 0})
+            
             div.comentario
                 h3 Comentarios
                 if Publicacion.Comentarios
                     each comentario in Publicacion.Comentarios
                         div
-                            a(href=`/usuario/${comentario.Usuario.username}`) #{comentario.Usuario.firstName || comentario.Usuario.username}
+                            a(href=`/usuario/${comentario.AutorDelComentario.username}`) #{comentario.AutorDelComentario.firstName || comentario.AutorDelComentario.username}
                             p #{comentario.comentario}
-                        p #{new Date(comentario.createdAt).toLocaleDateString('es-AR')}
+                            p #{new Date(comentario.createdAt).toLocaleDateString('es-AR')}
                 else
                     p No hay comentarios aún
+
 
                 div
                     form(action=`/publicacion/${Publicacion.idPublicacion}/comentario` method="POST")
