@@ -11,7 +11,8 @@ block content
         if Publicacion
             each post in Publicacion   
                 div.publicacion
-                    h2 #{post.titulo} 
+                    a(href=`/publicacion/${post.idPublicacion}`)
+                        h2 #{post.titulo} 
                     h3 #{post.contenido}
                     if post.Imagens
                         each imagen in post.Imagens
@@ -22,7 +23,7 @@ block content
                     p Creado #{new Date(post.createdAt).toLocaleDateString('es-AR')}
                     a(href=`/usuario/${post.Autor.username}`) Creado por: #{post.Autor.firstName || post.Autor.username}
                     a Me gusta Publicacion
-                    a Comentarios Publicacion
+                    a(href=`/publicacion/${post.idPublicacion}`) Comentarios (#{post.Comentarios ? post.Comentarios.length : 0})
     
 
     

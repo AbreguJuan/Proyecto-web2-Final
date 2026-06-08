@@ -34,4 +34,4 @@ block content
                     p Creado #{new Date(post.createdAt).toLocaleDateString('es-AR')}
                     a(href=`/usuario/${post.Autor.username}`) Creado por: #{post.Autor.firstName || post.Autor.username}             
                     a Me gusta Publicacion
-                    a Comentarios Publicacion
+                    a(href=`/publicacion/${post.idPublicacion}`) Comentarios (#{post.Comentarios ? post.Comentarios.length : 0})

@@ -6,13 +6,47 @@ import { Comentario } from '../modelos/tablas/Comentario.js'
 import { MeGusta } from '../modelos/tablas/MeGusta.js'
 import usuarioRouter from '../routes/usuario.js'
 
+export async function mostrarPublicacion(req, res) {
+    try {
+        const idPublicacion = req.params.id
+
+        const publicacion = await Publicacion.findOne({
+            where: { idPublicacion },
+            include: [
+                { model: Usuario, as: 'Autor' },
+                { model: Imagen },
+                { model: Etiqueta },
+                {
+                    model: Comentario,
+                    include: [{ model: Usuario }]  //Para mostrar quién comentó
+                }
+            ]
+        })
+
+        if (!publicacion) {
+            return res.redirect('/publicacion')
+        }
+
+        const publicacionJson = publicacion.toJSON()
+        publicacionJson.Imagens = publicacionJson.Imagens.map(img => ({
+            ...img,
+            src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
+        }))
+
+        res.render('publicacion/mostrarPublicacion', { Publicacion: publicacionJson })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function mostrarPublicaciones(req, res) {
     try {
         const publicaciones = await Publicacion.findAll({
             include: [
                 { model: Usuario, as: 'Autor' },
                 { model: Imagen },
-                { model: Etiqueta }
+                { model: Etiqueta },
+                { model: Comentario }
             ],
             order: [['createdAt', 'DESC']]
         })

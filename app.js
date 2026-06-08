@@ -11,6 +11,7 @@ import coleccionRouter from './routes/coleccion.js'
 import seguidorRouter from './routes/seguidor.js'
 import notificacionRouter from './routes/notificacion.js'
 import mensajeRouter from './routes/mensaje.js'
+//import comentarioRouter from './routes/comentario.js'
 
 //import imagenRouter from './routes/imagen.js';
 
@@ -30,7 +31,7 @@ app.use(session({
     resave: false,
     cookie: {
         secure: false, //en produccion cambiarlo a true
-        maxAge: 24 * 60 * 60 + 1000, // 24h + 60m + 60s + 1000milisegundos
+        maxAge: 24 * 60 * 60 * 1000, // 24h * 60m * 60s * 1000milisegundos
         httpOnly: true,
         sameSite: 'lax' //SERVER SIDE RENDERY (SSR)
     }
@@ -48,6 +49,7 @@ app.use('/', coleccionRouter)
 app.use('/', seguidorRouter)
 app.use('/', notificacionRouter)
 app.use('/', mensajeRouter)
+//app.use('/', comentarioRouter)
 
 //app.use('/', imagenRouter)
 

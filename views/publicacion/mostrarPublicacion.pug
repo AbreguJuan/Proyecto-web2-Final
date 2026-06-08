@@ -1,0 +1,33 @@
+extends ../layout.pug
+
+block content
+    if Publicacion
+        div.publicacion
+            h2 #{Publicacion.titulo}
+            h3 #{Publicacion.contenido}
+            if Publicacion.Imagens
+                each imagen in Publicacion.Imagens
+                    img(src=imagen.src, style="width:300px")
+            if Publicacion.Etiqueta
+                each etiqueta in Publicacion.Etiqueta
+                    p #{etiqueta.etiqueta}
+            p Creado #{new Date(Publicacion.createdAt).toLocaleDateString('es-AR')}
+            a(href=`/usuario/${Publicacion.Autor.username}`) Creado por: #{Publicacion.Autor.firstName || Publicacion.Autor.username}
+
+            div.comentario
+                h3 Comentarios
+                if Publicacion.Comentarios
+                    each comentario in Publicacion.Comentarios
+                        div
+                            a(href=`/usuario/${comentario.Usuario.username}`) #{comentario.Usuario.firstName || comentario.Usuario.username}
+                            p #{comentario.comentario}
+                        p #{new Date(comentario.createdAt).toLocaleDateString('es-AR')}
+                else
+                    p No hay comentarios aún
+
+                div
+                    form(action=`/publicacion/${Publicacion.idPublicacion}/comentario` method="POST")
+                        div
+                            label Comentario:
+                                input(type="text", name="comentario", required)
+                        button(type="submit") Comentar

@@ -65,6 +65,13 @@ Comentario.belongsToMany(Publicacion, {
     foreignKey: 'idComentario',
     otherKey: 'idPublicacion'
 })
+//Usuario tiene muchos comnetarios y cada comentario pertenece a un usuario
+Usuario.hasMany(Comentario, {
+    foreignKey: 'idUsuario'
+})
+Comentario.belongsTo(Usuario, {
+    foreignKey: 'idUsuario'
+})
 
 //Publicacion tiene muchos me gusta y varios me gusta pueden pertenecer a varias publicaciones
 Publicacion.belongsToMany(Usuario, { 

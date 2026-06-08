@@ -154,3 +154,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
+/* COMENTARIO */
+div.comentario {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
