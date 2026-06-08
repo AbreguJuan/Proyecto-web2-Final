@@ -6,6 +6,8 @@ import { Comentario } from '../modelos/tablas/Comentario.js'
 import { MeGusta } from '../modelos/tablas/MeGusta.js'
 import usuarioRouter from '../routes/usuario.js'
 
+import { Op } from 'sequelize'
+//Muestra la publicacion seleccionada (findOne)
 export async function mostrarPublicacion(req, res) {
     try {
         const idPublicacion = req.params.id
@@ -38,7 +40,7 @@ export async function mostrarPublicacion(req, res) {
         console.log(error)
     }
 }
-
+//Muestra todas las publicaciones (findAll)
 export async function mostrarPublicaciones(req, res) {
     try {
         const publicaciones = await Publicacion.findAll({
@@ -69,7 +71,7 @@ export async function mostrarPublicaciones(req, res) {
 export async function getCrearPublicacion(req, res) {
     res.render('publicacion/crearPublicacion')
 }
-
+//Crea una nueva publicacion (POST)
 export const postCrearPublicaion = async (req, res) => {
     const { titulo, contenido, img, etiqueta } = req.body;
     //Datos para obtener al usuario y mandarlo al pug
@@ -118,5 +120,44 @@ export const postCrearPublicaion = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.redirect('/publicacion/crearPublicacion')
+    }
+}
+//Busca Publicaciones por etiqueta o Usuario (findAll)
+export async function buscarPublicaciones(req, res) {
+    const { buscar } = req.query
+    try {
+        const publicaciones = await Publicacion.findAll({
+            include: [
+                {
+                    model: Usuario, as: 'Autor',
+                    required: false
+                },
+                { model: Imagen },
+                {
+                    model: Etiqueta,
+                    required: false
+                },
+                { model: Comentario }
+            ],
+            where: {
+                [Op.or]: [
+                    { '$Autor.username$': { [Op.iLike]: `%${buscar}%` } },
+                    { '$Etiqueta.etiqueta$': { [Op.iLike]: `%${buscar}%` } }
+                ]
+            },
+            order: [['createdAt', 'DESC']]
+        })
+        const publicacionesConImagenes = publicaciones.map(post => {
+            const postJson = post.toJSON()
+            postJson.Imagens = postJson.Imagens.map(img => ({
+                ...img,
+                src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
+            }))
+            return postJson
+        })
+        res.render('publicacion/publicacion', { Publicacion: publicacionesConImagenes })
+    } catch (error) {
+        console.log(error)
+        res.redirect('/publicacion')
     }
 }
