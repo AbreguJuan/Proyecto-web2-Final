@@ -8,49 +8,29 @@ async function seedUsuario() {
 
     await Usuario.bulkCreate([
         { 
-            username: "Juan",
-            firstName: "Juan",
-            lastName: "Perez",
-            password: "password123", 
-            email: "juan@example.com",
-            birthDate: "1990-01-01",
-            phone: "1234567890"
+            username: "Admin",
+            password: "admin123", 
+            email: "admin@example.com",
         },
         { 
-            username: "Maria",
-            firstName: "Maria",
-            lastName: "Gomez",
-            password: "password456", 
-            email: "maria@example.com",
-            birthDate: "1992-05-15",
-            phone: "0987654321"
+            username: "Userone",
+            password: "userone123", 
+            email: "userone@example.com",
         },
         { 
-            username: "Pedro",
-            firstName: "Pedro",
-            lastName: "Lopez",
-            password: "password789", 
-            email: "pedro@example.com",
-            birthDate: "1985-12-10",
-            phone: "5555555555"
+            username: "Usertwo",
+            password: "usertwo123", 
+            email: "usertwo@example.com",
         },
         { 
             username: "Ana",
-            firstName: "Ana",
-            lastName: "Rodriguez",
-            password: "password012", 
+            password: "ana123",
             email: "ana@example.com",
-            birthDate: "1995-08-20",
-            phone: "1111111111"
         },
         { 
             username: "Luis",
-            firstName: "Luis",
-            lastName: "Martinez",
-            password: "password345", 
+            password: "luis123", 
             email: "luis@example.com",
-            birthDate: "1990-03-25",
-            phone: "2222222222"
         }
     ]);
 }

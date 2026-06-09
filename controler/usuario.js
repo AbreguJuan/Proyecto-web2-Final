@@ -57,6 +57,7 @@ export async function perfilUsuario(req, res) {
         // Convertir imágenes y agregar autor a cada publicacion
         usuarioJson.Publicaciones = await Promise.all(usuarioJson.Publicaciones
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))  //Ordena los post
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))  //ordenar acá
             .map(async post => {
                 post.Imagens = post.Imagens.map(img => ({
                     ...img,
