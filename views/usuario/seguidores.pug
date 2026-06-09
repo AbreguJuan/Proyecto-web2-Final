@@ -1,0 +1,10 @@
+extends ../layout.pug
+
+block content
+    h1 Seguidores de #{Usuario.username}
+    if Usuario.Seguidores && Usuario.Seguidores.length > 0
+        each seguidor in Usuario.Seguidores
+            div
+                a(href=`/usuario/${seguidor.Seguidor.username}`) #{seguidor.Seguidor.firstName || seguidor.Seguidor.username}
+    else
+        p No tiene seguidores aún

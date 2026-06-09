@@ -5,6 +5,7 @@ import { Etiqueta } from '../modelos/tablas/Etiqueta.js'
 import { Comentario } from '../modelos/tablas/Comentario.js'
 import { MeGusta } from '../modelos/tablas/MeGusta.js'
 import { Valoracion } from '../modelos/tablas/Valoracion.js'
+import { Seguidores } from '../modelos/tablas/Seguidores.js'
 import usuarioRouter from '../routes/usuario.js'
 
 import { Op } from 'sequelize'
@@ -146,16 +147,11 @@ export async function buscarPublicaciones(req, res) {
     try {
         const publicaciones = await Publicacion.findAll({
             include: [
-                {
-                    model: Usuario, as: 'Autor',
-                    required: false
-                },
+                { model: Usuario, as: 'Autor', required: false },
                 { model: Imagen },
-                {
-                    model: Etiqueta,
-                    required: false
-                },
-                { model: Comentario }
+                { model: Etiqueta, required: false },
+                { model: Comentario },
+                { model: Valoracion }
             ],
             where: {
                 [Op.or]: [
@@ -173,6 +169,7 @@ export async function buscarPublicaciones(req, res) {
             }))
             return postJson
         })
+        console.log('KEYS POST:', Object.keys(publicacionesConImagenes[0]))
         res.render('publicacion/publicaciones', { Publicacion: publicacionesConImagenes })
     } catch (error) {
         console.log(error)

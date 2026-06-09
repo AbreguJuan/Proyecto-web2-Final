@@ -8,12 +8,18 @@ block content
             if Publicacion.Imagens
                 each imagen in Publicacion.Imagens
                     img(src=imagen.src, style="width:300px")
-            if Publicacion.Etiqueta
-                each etiqueta in Publicacion.Etiqueta
-                    p #{etiqueta.etiqueta}
-            p Creado #{new Date(Publicacion.createdAt).toLocaleDateString('es-AR')}
+            div.etiqueta
+                if Publicacion.Etiqueta
+                    each etiqueta in Publicacion.Etiqueta
+                        span.etiqueta #{etiqueta.etiqueta}
+            //-Autor
             a(href=`/usuario/${Publicacion.Autor.username}`) Creado por: #{Publicacion.Autor.firstName || Publicacion.Autor.username}
-
+            //-Seguir
+            a(href=`/usuario/${Publicacion.Autor.username}`) #{Publicacion.Autor.firstName || Publicacion.Autor.username}
+            if currentUser && currentUser.username !== Publicacion.Autor.username
+                form(action=`/usuario/${Publicacion.Autor.username}/${Publicacion.Autor.idUsuario}/seguir` method="POST")
+                    button(type="submit") Seguir
+            //-Valorar
             div.megusta
                 form(action=`/publicacion/${Publicacion.idPublicacion}/valoracion` method="POST")
                     select(name="puntuacion")

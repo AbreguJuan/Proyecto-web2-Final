@@ -8,7 +8,6 @@ import loginRouter from './routes/login.js'
 import usuarioRouter from './routes/usuario.js'
 import publicacionRouter from './routes/publicacion.js'
 import coleccionRouter from './routes/coleccion.js'
-import seguidorRouter from './routes/seguidor.js'
 import notificacionRouter from './routes/notificacion.js'
 import mensajeRouter from './routes/mensaje.js'
 //import comentarioRouter from './routes/comentario.js'
@@ -46,10 +45,8 @@ app.use('/', loginRouter)
 app.use('/', usuarioRouter)
 app.use('/', publicacionRouter)
 app.use('/', coleccionRouter)
-app.use('/', seguidorRouter)
 app.use('/', notificacionRouter)
 app.use('/', mensajeRouter)
-//app.use('/', comentarioRouter)
 
 // CONECCION A LA BASE DE DATOS
 connectDataBase()

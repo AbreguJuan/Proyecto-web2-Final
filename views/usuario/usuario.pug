@@ -5,19 +5,23 @@ block metadata
 //-Perfil del usuario
 block content
     div.usuario
+        //-Nombre del usuario
         if currentUser && currentUser.username === Usuario.username
             h1 Bienvenido #{Usuario.firstName || Usuario.username}
         else 
             h1 Perfil de #{Usuario.firstName || Usuario.username}
-        p Cuenta creada desde el #{new Date(Usuario.createdAt).toLocaleDateString('es-AR')}          
+        p Cuenta creada desde el #{new Date(Usuario.createdAt).toLocaleDateString('es-AR')}
+        //-Seguir
+        if currentUser && currentUser.username !== Usuario.username
+            form(action=`/usuario/${Usuario.username}/${Usuario.idUsuario}/seguir` method="POST")
+                button(type="submit") #{esSeguido ? 'Dejar de seguir' : 'Seguir'}
+        a(href=`/usuario/${Usuario.username}/seguidores`) Seguidores: #{Usuario.Seguidores ? Usuario.Seguidores.length : 0}
+        a(href=`/usuario/${Usuario.username}/siguiendo`) Siguiendo: #{Usuario.Siguiendo ? Usuario.Siguiendo.length : 0}
+        //-resto del perfil
         if Usuario.birthDate
             p Cumpleaños: #{Usuario.birthDate}
-        a(href="#") seguidores
-        a(href="#") siguiendo
         if !Usuario 
             h1 No se encontro el usuario
-        a(href="#") editar
-        a(href="#") denunciar
     //-Publicaciones del propio perfil
     div
         if Usuario.Publicaciones
@@ -28,10 +32,11 @@ block content
                     if post.Imagens
                         each imagen in post.Imagens
                             img(src=`${imagen.metadata},${imagen.contenido.toString('base64')}` style="width:300px")
-                    if post.Etiqueta
-                        each etiqueta in post.Etiqueta
-                            p #{etiqueta.etiqueta}  
-                    p Creado #{new Date(post.createdAt).toLocaleDateString('es-AR')}
+                    div.etiqueta
+                        if post.Etiqueta
+                            each etiqueta in post.Etiqueta
+                                span.etiqueta #{etiqueta.etiqueta}  
+                    //-Autor
                     a(href=`/usuario/${post.Autor.username}`) Creado por: #{post.Autor.firstName || post.Autor.username}             
-                    a Me gusta Publicacion
+                    //-a Me gusta Publicacion
                     a(href=`/publicacion/${post.idPublicacion}`) Comentarios (#{post.Comentarios ? post.Comentarios.length : 0})

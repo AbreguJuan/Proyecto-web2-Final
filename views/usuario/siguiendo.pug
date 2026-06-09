@@ -1,0 +1,10 @@
+extends ../layout.pug
+
+block content
+    h1 #{Usuario.username} sigue a
+    if Usuario.Siguiendo && Usuario.Siguiendo.length > 0
+        each siguiendo in Usuario.Siguiendo
+            div
+                a(href=`/usuario/${siguiendo.Seguido.username}`) #{siguiendo.Seguido.firstName || siguiendo.Seguido.username}
+    else
+        p No sigue a nadie aún
