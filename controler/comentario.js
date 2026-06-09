@@ -1,7 +1,7 @@
 import { Usuario } from '../modelos/tablas/Usuario.js'
 import { Publicacion } from '../modelos/tablas/Publicacion.js'
 import { Comentario } from '../modelos/tablas/Comentario.js'
-import comentarioRouter from '../routes/comentario.js'
+import publicacionRouter from '../routes/publicacion.js'
 
 export async function postPublicarComentario(req, res) {
     const idPublicacion = req.params.id

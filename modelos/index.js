@@ -17,6 +17,7 @@ import Coleccion from "./tablas/Coleccion.js";
 import ColeccionPublicaciones from "./tablas/ColeccionPublicaciones.js";
 import ColeccionImagenes from "./tablas/ColeccionImagen.js";
 import Mensajes from "./tablas/Mensajes.js";
+import Valoracion from "./tablas/Valoracion.js";
 
 //Relaciones entre modelos
 
@@ -202,6 +203,21 @@ Usuario.hasMany(Mensajes, {
 Mensajes.belongsTo(Usuario, {
     foreignKey: 'idUsuarioReceptor'
 })
+//Cada publicacion tiene muchas valorizaciones y cada valorizacion pertenece a una publicacion
+Publicacion.hasMany(Valoracion, { 
+    foreignKey: 'idPublicacion' 
+})
+Valoracion.belongsTo(Publicacion, { 
+    foreignKey: 'idPublicacion' 
+})
+//Un usuario puede dar muchas valorizaciones y cada valorizacion pertenece a un usuario
+Usuario.hasMany(Valoracion, { 
+    foreignKey: 'idUsuario' 
+})
+Valoracion.belongsTo(Usuario, { 
+    foreignKey: 'idUsuario' 
+})
+
 
 //Exporto la funcion para conectar a la base de datos y sincronizar los modelos
 export async function connectDataBase() {

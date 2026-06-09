@@ -8,7 +8,7 @@ block content
         a(href='/publicacion/crearPublicacion') Crear nueva publicación
 
     div
-        form(action="/publicacion/buscar" method="GET")
+        form(action="/publicaciones/buscar" method="GET")
             input(type="text", name="buscar", placeholder="Buscar por etiqueta o usuario")
             button(type="submit") Buscar
 
@@ -28,9 +28,16 @@ block content
                     p Creado #{new Date(post.createdAt).toLocaleDateString('es-AR')}
                     //-Autor
                     a(href=`/usuario/${post.Autor.username}`) Creado por: #{post.Autor.firstName || post.Autor.username}
-                    //-MeGusta
-                    form(action=`/publicacion/${post.idPublicacion}/megusta` method="POST")
-                        button(type="submit") Me gusta (#{post.MeGustas ? post.MeGustas.length : 0})
+                    //-MeGusta (Valoracion)
+                    form(action=`/publicacion/${post.idPublicacion}/valoracion` method="POST")
+                        select(name="puntuacion")
+                            option(value="1") ⭐
+                            option(value="2") ⭐⭐
+                            option(value="3") ⭐⭐⭐
+                            option(value="4") ⭐⭐⭐⭐
+                            option(value="5") ⭐⭐⭐⭐⭐
+                        button(type="submit") Valorar
+                    p Promedio: #{post.Valoraciones ? (post.Valoraciones.reduce((a, b) => a + b.puntuacion, 0) / post.Valoraciones.length).toFixed(1) : 'Sin valoraciones'} ⭐
                     //-Cantidad de comentarios
                     a(href=`/publicacion/${post.idPublicacion}`) Comentarios (#{post.Comentarios ? post.Comentarios.length : 0})
         else

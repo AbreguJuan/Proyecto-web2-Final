@@ -51,8 +51,6 @@ app.use('/', notificacionRouter)
 app.use('/', mensajeRouter)
 //app.use('/', comentarioRouter)
 
-//app.use('/', imagenRouter)
-
 // CONECCION A LA BASE DE DATOS
 connectDataBase()
     .then(() => {

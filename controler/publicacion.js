@@ -4,6 +4,7 @@ import { Imagen } from '../modelos/tablas/Imagen.js'
 import { Etiqueta } from '../modelos/tablas/Etiqueta.js'
 import { Comentario } from '../modelos/tablas/Comentario.js'
 import { MeGusta } from '../modelos/tablas/MeGusta.js'
+import { Valoracion } from '../modelos/tablas/Valoracion.js'
 import usuarioRouter from '../routes/usuario.js'
 
 import { Op } from 'sequelize'
@@ -21,7 +22,8 @@ export async function mostrarPublicacion(req, res) {
                 {
                     model: Comentario,
                     include: [{ model: Usuario, as: 'AutorDelComentario' }]
-                }
+                },
+                { model: Valoracion }
             ]
         })
 
@@ -42,7 +44,7 @@ export async function mostrarPublicacion(req, res) {
         publicacionJson.MeGustas = meGustas
 
         console.log('IDPUBLICACION:', publicacionJson.idPublicacion) 
-
+        
         res.render('publicacion/mostrarPublicacion', { Publicacion: publicacionJson })
     } catch (error) {
         console.log(error)
@@ -56,25 +58,29 @@ export async function mostrarPublicaciones(req, res) {
                 { model: Usuario, as: 'Autor' },
                 { model: Imagen },
                 { model: Etiqueta },
-                { model: Comentario }
+                { model: Comentario },
+                { model: Valoracion }
             ],
             order: [['createdAt', 'DESC']]
         })
 
-        // Me gustas por separado para cada publicacion
         const publicacionesConImagenes = await Promise.all(publicaciones.map(async post => {
             const postJson = post.toJSON()
             postJson.Imagens = postJson.Imagens.map(img => ({
                 ...img,
                 src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
             }))
+            // Me gustas por separado para cada publicacion
             postJson.MeGustas = await MeGusta.findAll({
+                where: { idPublicacion: postJson.idPublicacion }
+            })
+            postJson.Valoraciones = await Valoracion.findAll({ 
                 where: { idPublicacion: postJson.idPublicacion }
             })
             return postJson
         }))
 
-        res.render('publicacion/publicacion', { Publicacion: publicacionesConImagenes })
+        res.render('publicacion/publicaciones', { Publicacion: publicacionesConImagenes })
     } catch (error) {
         console.log(error)
     }
@@ -167,7 +173,7 @@ export async function buscarPublicaciones(req, res) {
             }))
             return postJson
         })
-        res.render('publicacion/publicacion', { Publicacion: publicacionesConImagenes })
+        res.render('publicacion/publicaciones', { Publicacion: publicacionesConImagenes })
     } catch (error) {
         console.log(error)
         res.redirect('/publicacion')
@@ -205,6 +211,46 @@ export async function postMeGusta(req, res) {
             await MeGusta.create({ idPublicacion, idUsuario })
         }
 
+        res.redirect(`/publicacion/${idPublicacion}`)
+    } catch (error) {
+        console.log(error)
+        res.redirect(`/publicacion/${idPublicacion}`)
+    }
+}
+//Dejar una valorizacion a la publicacion de 1 a 5 estrellas
+export async function postValoracion(req, res) {
+    console.log('PARAMS:', req.params)
+    console.log('ID:', req.params.id)
+    const idPublicacion = req.params.id
+    const idUsuario = req.session.Usuario.id
+    const { puntuacion } = req.body
+    const puntuacionInt = parseInt(puntuacion) //Lo convierto a numero
+
+    try {
+        const publicacion = await Publicacion.findByPk(idPublicacion)
+
+        if (!publicacion) {
+            return res.redirect('/publicacion')
+        }
+
+        // No puede valorar su propia publicacion
+        if (publicacion.idUsuario === idUsuario) {
+            return res.redirect(`/publicacion/${idPublicacion}`)
+        }
+
+        // Verificar si ya valoró
+        const valoracionExistente = await Valoracion.findOne({
+            where: { idPublicacion, idUsuario }
+        })
+
+        if (valoracionExistente) {
+            // Si ya valoró, actualiza la puntuacion
+            await valoracionExistente.update({ puntuacion: puntuacionInt })
+        } else {
+            // Si no valoró, crea la valoracion
+            await Valoracion.create({ idPublicacion, idUsuario, puntuacion: puntuacionInt })
+        }
+        console.log('IDPUBLICACION:', publicacionJson.idPublicacion)
         res.redirect(`/publicacion/${idPublicacion}`)
     } catch (error) {
         console.log(error)
