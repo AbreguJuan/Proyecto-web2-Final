@@ -134,10 +134,10 @@ export const postCrearPublicaion = async (req, res) => {
             }
         }
         //Si todo anda bien, me redirige al menu
-        res.redirect('/publicacion')
+        res.redirect('/publicaciones')
         //Sino entra al catch
     } catch (error) {
-        console.log(error)
+        console.log('ERROR COMPLETO: ',error)
         res.redirect('/publicacion/crearPublicacion')
     }
 }

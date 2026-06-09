@@ -38,7 +38,7 @@ export async function perfilUsuario(req, res) {
                 },
                 { model: Seguidores, as: 'Seguidores' },
                 { model: Seguidores, as: 'Siguiendo' }
-            ]
+            ],
         })
 
         if (!usuario) {
@@ -56,6 +56,7 @@ export async function perfilUsuario(req, res) {
         //Trae las publicaciones propias al perfil
         // Convertir imágenes y agregar autor a cada publicacion
         usuarioJson.Publicaciones = await Promise.all(usuarioJson.Publicaciones
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))  //Ordena los post
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))  //ordenar acá
             .map(async post => {
                 post.Imagens = post.Imagens.map(img => ({
@@ -67,13 +68,12 @@ export async function perfilUsuario(req, res) {
                 return post
             }))
 
-        //res.render('publicacion/publicaciones')
         res.render('usuario/usuario', { Usuario: usuarioJson, esSeguido: !!esSeguido })
     } catch (error) {
         console.log("Error al entrar al perfil: ", error)
     }
 }
-
+//Sigues a un usuario
 export async function seguirUsuario(req, res) {
     const idUsuario = req.session.Usuario.id
     const idUsuarioSeguido = req.params.id  // id del usuario a seguir
