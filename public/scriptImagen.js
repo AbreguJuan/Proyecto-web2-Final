@@ -28,7 +28,7 @@ form.addEventListener('submit', (e) => {
         //Cambiar esto si falla
         //window.location.assign('gallery')
         //Nuevo cambio
-        window.location.assign('/publicacion')
+        window.location.assign('/publicaciones')
     }).catch((err) => {
         console.log(err)
     })

@@ -55,15 +55,17 @@ export async function perfilUsuario(req, res) {
 
         //Trae las publicaciones propias al perfil
         // Convertir imágenes y agregar autor a cada publicacion
-        usuarioJson.Publicaciones = await Promise.all(usuarioJson.Publicaciones.map(async post => {
-            post.Imagens = post.Imagens.map(img => ({
-                ...img,
-                src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
+        usuarioJson.Publicaciones = await Promise.all(usuarioJson.Publicaciones
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))  //ordenar acá
+            .map(async post => {
+                post.Imagens = post.Imagens.map(img => ({
+                    ...img,
+                    src: `${img.metadata},${Buffer.from(img.contenido).toString('base64')}`
+                }))
+                post.MeGustas = await MeGusta.findAll({ where: { idPublicacion: post.idPublicacion } })
+                post.Autor = usuarioJson
+                return post
             }))
-            post.MeGustas = await MeGusta.findAll({ where: { idPublicacion: post.idPublicacion } })
-            post.Autor = usuarioJson  // el autor es el mismo usuario del perfil
-            return post
-        }))
 
         //res.render('publicacion/publicaciones')
         res.render('usuario/usuario', { Usuario: usuarioJson, esSeguido: !!esSeguido })
@@ -107,8 +109,8 @@ export async function mostrarSeguidores(req, res) {
         const name = req.params.username
         const usuario = await Usuario.findOne({
             where: { username: name },
-            include: [{ 
-                model: Seguidores, 
+            include: [{
+                model: Seguidores,
                 as: 'Seguidores',
                 include: [{ model: Usuario, as: 'Seguidor' }]
             }]
@@ -127,8 +129,8 @@ export async function mostrarSiguiendo(req, res) {
         const name = req.params.username
         const usuario = await Usuario.findOne({
             where: { username: name },
-            include: [{ 
-                model: Seguidores, 
+            include: [{
+                model: Seguidores,
                 as: 'Siguiendo',
                 include: [{ model: Usuario, as: 'Seguido' }]
             }]
