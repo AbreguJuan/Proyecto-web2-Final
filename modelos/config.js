@@ -1,6 +1,6 @@
 //Prueba para verificar la coneccion a la base de datos
 import 'dotenv/config'
-import {Sequelize} from 'sequelize'
+import { Sequelize } from 'sequelize'
 
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
@@ -14,8 +14,14 @@ const sequelize = new Sequelize({
   username: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
-  port: DB_PORT
-});
+  port: DB_PORT,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false  // necesario para Render
+    }
+  }
+})
 
 //Testea la coneccion a la base de datos
 /*try {
