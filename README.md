@@ -20,15 +20,15 @@ npm install express-session
 Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
 ```
-PORT = 3000
+PORT = *******
 
-DB_USER = postgres
-DB_PASSWORD = 1234
-DB_NAME = postgres
-DB_HOST = localhost
-DB_PORT = 5432
+DB_USER = *******
+DB_PASSWORD = *******
+DB_NAME = *******
+DB_HOST = *******
+DB_PORT = *******
 
-SESSION_KEY = fotaza2
+SESSION_KEY = *******
 ```
 
 ### 3. Configurar la base de datos
